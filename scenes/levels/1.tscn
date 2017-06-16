@@ -1,11 +1,11 @@
-[gd_scene load_steps=2 format=1]
+[gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://tileset/tileset.tres" type="TileSet" id=1]
+[ext_resource path="res://images/board_bg.tex" type="Texture" id=2]
 
 [node name="board" type="TileMap"]
 
-transform/pos = Vector2( 135, 100 )
-transform/scale = Vector2( 1.25, 1.25 )
+transform/pos = Vector2( 0, 100 )
 mode = 0
 tile_set = ExtResource( 1 )
 cell/size = Vector2( 216, 216 )
@@ -20,6 +20,13 @@ collision/bounce = 0.0
 collision/layers = 1
 collision/mask = 1
 occluder/light_mask = 1
-tile_data = IntArray( 65536, 0, 65537, 0, 65538, 0, 131072, 0, 131073, 0, 131074, 0, 196608, 0, 196609, 0, 196610, 0, 262144, 0, 262145, 0, 262146, 0 )
+tile_data = IntArray( 131073, 0, 131074, 0, 131075, 0, 196609, 0, 196610, 0, 196611, 0, 262145, 0, 262146, 0, 262147, 0, 327681, 0, 327682, 0, 327683, 0 )
+
+[node name="background" type="Sprite" parent="."]
+
+transform/pos = Vector2( 540, 900 )
+transform/scale = Vector2( 0.75, 0.8 )
+z/z = -1
+texture = ExtResource( 2 )
 
 

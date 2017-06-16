@@ -1,17 +1,18 @@
-[gd_scene load_steps=15 format=1]
+[gd_scene load_steps=16 format=1]
 
 [ext_resource path="res://scripts/stage.gd" type="Script" id=1]
 [ext_resource path="res://audio/merge.smp" type="Sample" id=2]
 [ext_resource path="res://images/background.tex" type="Texture" id=3]
-[ext_resource path="res://images/wood.tex" type="Texture" id=4]
-[ext_resource path="res://fonts/title.fnt" type="BitmapFont" id=5]
-[ext_resource path="res://images/top_border.tex" type="Texture" id=6]
-[ext_resource path="res://images/menu.tex" type="Texture" id=7]
-[ext_resource path="res://images/restart.tex" type="Texture" id=8]
-[ext_resource path="res://images/undo.tex" type="Texture" id=9]
-[ext_resource path="res://images/brush.tex" type="Texture" id=10]
-[ext_resource path="res://images/bottom_border.tex" type="Texture" id=11]
-[ext_resource path="res://scripts/input_handler.gd" type="Script" id=12]
+[ext_resource path="res://images/badge_panel.tex" type="Texture" id=4]
+[ext_resource path="res://images/wood.tex" type="Texture" id=5]
+[ext_resource path="res://fonts/title.fnt" type="BitmapFont" id=6]
+[ext_resource path="res://images/top_border.tex" type="Texture" id=7]
+[ext_resource path="res://images/menu.tex" type="Texture" id=8]
+[ext_resource path="res://images/restart.tex" type="Texture" id=9]
+[ext_resource path="res://images/undo.tex" type="Texture" id=10]
+[ext_resource path="res://images/brush.tex" type="Texture" id=11]
+[ext_resource path="res://images/bottom_border.tex" type="Texture" id=12]
+[ext_resource path="res://scripts/input_handler.gd" type="Script" id=13]
 
 [sub_resource type="SampleLibrary" id=1]
 
@@ -69,6 +70,7 @@ stream/buffering_ms = 500
 [node name="background" type="Sprite" parent="."]
 
 transform/pos = Vector2( 540, 960 )
+z/z = -2
 texture = ExtResource( 3 )
 
 [node name="hud" type="CanvasLayer" parent="."]
@@ -89,8 +91,26 @@ margin/top = 0.0
 margin/right = 1080.0
 margin/bottom = 225.0
 
+[node name="badges" type="Container" parent="hud/header"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 150.0
+margin/right = 1080.0
+margin/bottom = 350.0
+
+[node name="badge_panel" type="Sprite" parent="hud/header/badges"]
+
+transform/pos = Vector2( 540, 135 )
+z/z = -2
+texture = ExtResource( 4 )
+
 [node name="title" type="Container" parent="hud/header"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -103,7 +123,7 @@ margin/bottom = 110.0
 [node name="container_sprite" type="Sprite" parent="hud/header/title"]
 
 transform/pos = Vector2( 540, 90 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
 [node name="title" type="Label" parent="hud/header/title"]
 
@@ -115,7 +135,7 @@ margin/left = 425.0
 margin/top = 30.0
 margin/right = 655.0
 margin/bottom = 103.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 5
 custom_constants/shadow_offset_y = 10
@@ -130,7 +150,7 @@ script/script = SubResource( 2 )
 
 transform/pos = Vector2( 540, 102 )
 z/z = -1
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 
 [node name="menu" type="TextureButton" parent="hud"]
 
@@ -139,13 +159,13 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 890.0
-margin/top = 70.0
+margin/top = 10.0
 margin/right = 1060.0
-margin/bottom = 235.0
+margin/bottom = 175.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 7 )
+textures/normal = ExtResource( 8 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
@@ -173,7 +193,7 @@ margin/bottom = 170.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 8 )
+textures/normal = ExtResource( 9 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
@@ -190,7 +210,7 @@ margin/bottom = 170.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 9 )
+textures/normal = ExtResource( 10 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
@@ -207,7 +227,7 @@ margin/bottom = 170.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 10 )
+textures/normal = ExtResource( 11 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
@@ -215,7 +235,7 @@ params/stretch_mode = 0
 
 transform/pos = Vector2( 540, 210 )
 z/z = -1
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 
 [node name="input_handler" type="Control" parent="."]
 
@@ -227,7 +247,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 1080.0
 margin/bottom = 1920.0
-script/script = ExtResource( 12 )
+script/script = ExtResource( 13 )
 
 [node name="tween" type="Tween" parent="."]
 
