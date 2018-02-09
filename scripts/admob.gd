@@ -3,8 +3,7 @@ extends Node2D
 var admob = null
 var isReal = false
 var isTop = false
-
-var adBannerId = "ca-app-pub-7487980855200755/1597468960"
+var adBannerId = "ca-app-pub-3940256099942544/6300978111" # [Replace with your Ad Unit ID and delete this message.]
 
 func _ready():
 	if(Globals.has_singleton("AdMob")):
