@@ -29,7 +29,7 @@ func setup(pos, t):
 	tween = t
 	current_pos = pos
 	_set_label()
-	set_pos(get_parent().map_to_world(pos))
+	set_pos(_get_world_pos(pos))
 	_spawn_animation()
 
 func _modulate():
@@ -46,7 +46,7 @@ func _increase_value():
 	get_node("animation").play("merge")
 
 func _interpolated_move(pos):
-	var world_current_pos = get_parent().map_to_world(current_pos)
+	var world_current_pos = _get_world_pos(current_pos)
 
 	# length of the difference between the current position and the destination
 	var d = (world_current_pos - pos).length()
@@ -67,10 +67,14 @@ func _interpolated_move(pos):
 
 func _define_tweening():
 	# get the real world position since destination is a position in the matrix
-	var world_pos = get_parent().map_to_world(current_pos)
+	var world_pos = _get_world_pos(current_pos)
 
 	# interpolate the position
 	tween.interpolate_method(self, "_interpolated_move", get_pos(), world_pos,
 							 config.ANIMATION_TIME, tween.TRANS_LINEAR, tween.EASE_IN)
 	# decrease opacity for a smoother animation
 	set_opacity(config.MOVEMENT_OPACITY)
+
+func _get_world_pos(pos):
+	var offset = Vector2(256 / 2, 256 / 2)
+	return get_parent().map_to_world(current_pos) + offset
