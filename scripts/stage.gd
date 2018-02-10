@@ -25,12 +25,10 @@ func check_moves_available():
 	if matrix.keys().size() < used_cells.size():
 		return
 
-	for i in range(0, used_cells.size() - 1):
-		for j in range(i + 1, used_cells.size()):
-			var cell_i = used_cells[i]
-			var cell_j = used_cells[j]
-			var v = cell_i - cell_j
-			if abs(v.x) <= 1 and abs(v.y) <= 1 and matrix[cell_i].value == matrix[cell_j].value:
+	for current_cell in used_cells:
+		for d in config.DIRECTIONS:
+			var v = current_cell - d
+			if matrix.has(v) and matrix[v].level == matrix[current_cell].level:
 				return
 
 	# TODO: GAME OVER HERE RATHER THAN PREPARING THE DEFAULT BOARD HERE
@@ -137,9 +135,9 @@ func _move_line(position, direction):
 		var last_token = changes.last_token
 		var token_destination = changes.last_valid_position
 		# conditions for positioning and merging
-		if last_token and (last_token.token_to_merge_with or last_token.value != current_token.value):
+		if last_token and (last_token.token_to_merge_with or last_token.level != current_token.level):
 			token_destination -= direction
-		elif last_token and !last_token.token_to_merge_with and last_token.value == current_token.value:
+		elif last_token and !last_token.token_to_merge_with and last_token.level == current_token.level:
 			line_changes.merge = true
 			current_token.token_to_merge_with = last_token
 		# move current token after moving the ones after it

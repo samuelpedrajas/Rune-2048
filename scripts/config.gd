@@ -13,8 +13,8 @@ const LABEL_SCALE = Vector2(0.8, 0.8)  # scale factor when the number of digits 
 const MODULATION_ON_MERGE = Color(1.0, 0, 0, 1.0)
 const LINEAR_INTERPOLATION_SCALAR = 0.1
 
-const MOTION_DISTANCE = 40  # Minimum distance with the mouse pressed to make a move
-const MINIMUM_DISTANCE_TO_MOVE = 0.35  # Minimum distance from the 8 direction vectors to make a move
+const MOTION_DISTANCE = 15  # Minimum distance with the mouse pressed to make a move
+const MINIMUM_DISTANCE_TO_MOVE = 0.6 # Minimum distance from the direction vectors to make a move
 
 # current available challenges
 const CHALLENGES = [

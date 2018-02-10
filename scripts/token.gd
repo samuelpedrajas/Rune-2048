@@ -1,6 +1,6 @@
 extends Node2D
 
-var value
+var level
 var token_to_merge_with = null
 var current_pos
 var tween
@@ -11,21 +11,21 @@ func _ready():
 	connect("value_changed", global, "handle_token_increased", [], CONNECT_DEFERRED)
 
 func _set_label():
-	var n_digits_old = str(value / 2).length()
-	var n_digits_new = str(value).length()
+	var n_digits_old = str(level / 2).length()
+	var n_digits_new = str(level).length()
 	var label = get_node("token_sprite/value")
 
 	if n_digits_new != n_digits_old:
 		label.set_scale(label.get_scale() * config.LABEL_SCALE)
 		label.set_pos(-label.get_size() * label.get_scale() / 2)
-	label.text = str(value)
+	label.text = str(level)
 
 func _spawn_animation():
 	# play spawn animation
 	get_node("animation").play("spawn")
 
 func setup(pos, t):
-	value = 2
+	level = 2
 	tween = t
 	current_pos = pos
 	_set_label()
@@ -38,8 +38,8 @@ func _modulate():
 	sprite.set_modulate(c.linear_interpolate(config.MODULATION_ON_MERGE, config.LINEAR_INTERPOLATION_SCALAR))
 
 func _increase_value():
-	value *= 2
-	emit_signal("value_changed", value)
+	level *= 2
+	emit_signal("value_changed", level)
 	_modulate()
 	_set_label()
 	# play merge animation
