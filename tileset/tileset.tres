@@ -8,7 +8,7 @@
 0/texture = ExtResource( 1 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 0, 0, 256, 256 )
+0/region = Rect2( 0, 0, 340, 340 )
 0/occluder_offset = Vector2( 108, 108 )
 0/navigation_offset = Vector2( 108, 108 )
 0/shape_offset = Vector2( 0, 0 )

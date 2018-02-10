@@ -76,5 +76,5 @@ func _define_tweening():
 	set_opacity(config.MOVEMENT_OPACITY)
 
 func _get_world_pos(pos):
-	var offset = Vector2(256 / 2, 256 / 2)
+	var offset = Vector2(336 / 2, 334 / 2)
 	return get_parent().map_to_world(current_pos) + offset
