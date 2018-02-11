@@ -35,7 +35,7 @@ func handle_token_increased(v):
 func game_over():
 	print("Game over")
 	self.max_current = 0
-	stage.prepare_board(current_challenge)
+	stage.prepare_board(current_challenge.board)
 
 func _set_max_current(v):
 	max_current = v
