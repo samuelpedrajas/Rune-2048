@@ -1,6 +1,7 @@
 extends Node
 
 var max_current = 0
+var max_score = 0 setget _set_max_score
 var current_goal = 0
 var current_score = 0 setget _set_current_score
 
@@ -9,6 +10,7 @@ var current_challenge
 var next_challenge_index
 
 signal current_max_changed
+signal max_score_changed
 signal current_goal_changed
 signal current_score_changed
 signal new_challenge
@@ -26,6 +28,7 @@ func _next_challenge():
 
 func handle_merge(v):
 	self.current_score += pow(2, v + 1)
+	self.max_score = max_score if max_score > current_score else current_score
 	self.max_current = v if v > max_current else max_current
 
 func win():
@@ -39,3 +42,7 @@ func game_over():
 func _set_current_score(v):
 	current_score = v
 	emit_signal("current_score_changed", current_score)
+
+func _set_max_score(v):
+	max_score = v
+	emit_signal("max_score_changed", max_score)
