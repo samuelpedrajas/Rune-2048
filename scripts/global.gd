@@ -25,7 +25,6 @@ func _next_challenge():
 	stage.prepare_board(current_challenge.board)
 
 func handle_merge(v):
-	print("what")
 	self.current_score += pow(2, v + 1)
 	self.max_current = v if v > max_current else max_current
 
