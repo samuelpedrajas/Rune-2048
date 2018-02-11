@@ -59,9 +59,9 @@ func _reset_board():
 	# clear the matrix
 	matrix.clear()
 
-func prepare_board(challenge):
-	# get the packed scene scecified in the challenge
-	var board_packed_scene = load(challenge.board)
+func prepare_board(board):
+	# get the packed scene
+	var board_packed_scene = load(board)
 	# if we had a previous board, reset it
 	if current_board:
 		_reset_board()

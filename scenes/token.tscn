@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=5 format=1]
 
 [ext_resource path="res://scripts/token.gd" type="Script" id=1]
 [ext_resource path="res://images/token.png" type="Texture" id=2]
-[ext_resource path="res://fonts/token_label.fnt" type="BitmapFont" id=3]
 
 [sub_resource type="Animation" id=1]
 
@@ -45,28 +44,7 @@ script/script = ExtResource( 1 )
 
 texture = ExtResource( 2 )
 
-[node name="value" type="Label" parent="token_sprite"]
-
-anchor/right = 1
-anchor/bottom = 1
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = -163.0
-margin/top = -163.0
-margin/right = 163.0
-margin/bottom = 163.0
-custom_fonts/font = ExtResource( 3 )
-custom_colors/font_color = Color( 0.203125, 0.203125, 0.203125, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "2"
-align = 1
-valign = 1
-autowrap = true
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
+[node name="content" type="Sprite" parent="token_sprite"]
 
 [node name="animation" type="AnimationPlayer" parent="."]
 

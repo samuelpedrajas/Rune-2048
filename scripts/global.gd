@@ -20,8 +20,7 @@ func _next_challenge():
 	current_challenge = cfg.CHALLENGES[next_challenge_index]
 	self.current_goal = current_challenge.goal
 	next_challenge_index += 1
-	stage.prepare_board(current_challenge)
-	emit_signal("new_challenge", current_challenge.name)
+	stage.prepare_board(current_challenge.board)
 
 func _check_win():
 	if max_current == current_goal:

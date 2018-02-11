@@ -10,25 +10,20 @@ signal value_changed
 func _ready():
 	connect("value_changed", g, "handle_token_increased", [], CONNECT_DEFERRED)
 
-func _set_label():
-	var n_digits_old = str(level / 2).length()
-	var n_digits_new = str(level).length()
-	var label = get_node("token_sprite/value")
-
-	if n_digits_new != n_digits_old:
-		label.set_scale(label.get_scale() * cfg.LABEL_SCALE)
-		label.set_pos(-label.get_size() * label.get_scale() / 2)
-	label.text = str(level)
+func _set_content():
+	var content = get_node("token_sprite/content")
+	var texture = get_parent().get_token_content(level)
+	content.set_texture(texture)
 
 func _spawn_animation():
 	# play spawn animation
 	get_node("animation").play("spawn")
 
 func setup(pos, t):
-	level = 2
+	level = 0
 	tween = t
 	current_pos = pos
-	_set_label()
+	_set_content()
 	set_pos(_get_world_pos(pos))
 	_spawn_animation()
 
@@ -38,10 +33,10 @@ func _modulate():
 	sprite.set_modulate(c.linear_interpolate(cfg.MODULATION_ON_MERGE, cfg.LINEAR_INTERPOLATION_SCALAR))
 
 func _increase_value():
-	level *= 2
+	level += 1
 	emit_signal("value_changed", level)
 	_modulate()
-	_set_label()
+	_set_content()
 	# play merge animation
 	get_node("animation").play("merge")
 
