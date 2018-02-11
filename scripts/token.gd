@@ -5,11 +5,6 @@ var token_to_merge_with = null
 var current_pos
 var tween
 
-signal value_changed
-
-func _ready():
-	connect("value_changed", g, "handle_token_increased", [], CONNECT_DEFERRED)
-
 func _set_content():
 	var content = get_node("token_sprite/content")
 	var texture = get_parent().get_token_content(level)
@@ -34,7 +29,7 @@ func _modulate():
 
 func _increase_value():
 	level += 1
-	emit_signal("value_changed", level)
+	g.handle_merge(level)
 	_modulate()
 	_set_content()
 	# play merge animation

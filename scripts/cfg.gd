@@ -19,7 +19,7 @@ const MINIMUM_DISTANCE_TO_MOVE = 0.6 # Minimum distance from the direction vecto
 # current available challenges
 const CHALLENGES = [
 	{
-		"goal": 512,
+		"goal": 8,
 		"board": "res://scenes/levels/1.tscn"
 	}
 ]

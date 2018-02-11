@@ -23,16 +23,14 @@ func check_moves_available():
 	var used_cells = current_board.get_used_cells()
 
 	if matrix.keys().size() < used_cells.size():
-		return
+		return true
 
 	for current_cell in used_cells:
 		for d in cfg.DIRECTIONS:
 			var v = current_cell - d
 			if matrix.has(v) and matrix[v].level == matrix[current_cell].level:
-				return
-
-	# TODO: GAME OVER HERE RATHER THAN PREPARING THE DEFAULT BOARD HERE
-	g.game_over()
+				return true
+	return false
 
 func _set_direction_pivots():
 	# get all used cells in the current board
@@ -60,6 +58,8 @@ func _reset_board():
 	matrix.clear()
 
 func prepare_board(board):
+	g.max_current = 0
+	g.current_score = 0
 	# get the packed scene
 	var board_packed_scene = load(board)
 	# if we had a previous board, reset it
@@ -69,7 +69,7 @@ func prepare_board(board):
 	current_board = board_packed_scene.instance()  # create a new board
 	add_child(current_board)
 	_set_direction_pivots()  # set its direction pivots
-	_prepare_next_round()
+	_spawn_token()
 
 func _get_empty_position():
 	var available_positions = []
@@ -85,17 +85,20 @@ func _get_empty_position():
 	randomize()  # otherwise it generates the same numbers
 	return available_positions[randi() % available_positions.size()]
 
-func _spawn_token(pos):
+func _spawn_token():
+	var pos = _get_empty_position()
 	var t = token.instance()
 	current_board.add_child(t)  # t.setup() needs access to the board, so add it before
 	t.setup(pos, tween)
 	matrix[pos] = t
 
-func _prepare_next_round():
-	var pos = _get_empty_position()
-	if pos != null:
-		_spawn_token(pos)
-	check_moves_available()
+func _handle_game_status():
+	if g.max_current == g.current_goal:
+		g.win()
+		return
+	_spawn_token()
+	if not check_moves_available():
+		g.game_over()
 
 func move(direction):
 	# information about the events in the board
@@ -118,7 +121,7 @@ func move(direction):
 	if board_changed.movement:
 		tween.start()
 		# When the animation of all tokens is finished -> prepare next round
-		tween.interpolate_callback(self, tween.get_runtime(), "_prepare_next_round")
+		tween.interpolate_callback(self, tween.get_runtime(), "_handle_game_status")
 
 func _move_line(position, direction):
 	var line_changes = {

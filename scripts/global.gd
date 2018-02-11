@@ -1,8 +1,8 @@
 extends Node
 
-var max_current = 0 setget _set_max_current
-var current_goal = 0 setget _set_current_goal
-var current_score = 0
+var max_current = 0
+var current_goal = 0
+var current_score = 0 setget _set_current_score
 
 var stage
 var current_challenge
@@ -24,30 +24,19 @@ func _next_challenge():
 	next_challenge_index += 1
 	stage.prepare_board(current_challenge.board)
 
-func _check_win():
-	if max_current == current_goal:
-		print("WIN")
-		self.max_current = 0
-		_next_challenge()
-
-func handle_token_increased(v):
+func handle_merge(v):
+	print("what")
+	self.current_score += pow(2, v + 1)
 	self.max_current = v if v > max_current else max_current
-	_set_current_score(v)
-	_check_win()
+
+func win():
+	print("Win")
+	_next_challenge()
 
 func game_over():
 	print("Game over")
-	self.max_current = 0
 	stage.prepare_board(current_challenge.board)
 
-func _set_max_current(v):
-	max_current = v
-	emit_signal("current_max_changed", max_current)
-
-func _set_current_goal(v):
-	current_goal = v
-	emit_signal("current_goal_changed", current_goal)
-
-func _set_current_score(level):
-	current_score += pow(2, level + 1)
+func _set_current_score(v):
+	current_score = v
 	emit_signal("current_score_changed", current_score)
