@@ -1,15 +1,18 @@
-[gd_scene load_steps=12 format=1]
+[gd_scene load_steps=16 format=1]
 
 [ext_resource path="res://scripts/stage.gd" type="Script" id=1]
 [ext_resource path="res://audio/merge.smp" type="Sample" id=2]
 [ext_resource path="res://images/background.png" type="Texture" id=3]
 [ext_resource path="res://images/top_panel.png" type="Texture" id=4]
-[ext_resource path="res://images/menu_button.png" type="Texture" id=5]
-[ext_resource path="res://images/restart_button.png" type="Texture" id=6]
-[ext_resource path="res://images/book.png" type="Texture" id=7]
-[ext_resource path="res://images/broccoli.png" type="Texture" id=8]
-[ext_resource path="res://images/bottom_border.png" type="Texture" id=9]
-[ext_resource path="res://scripts/input_handler.gd" type="Script" id=10]
+[ext_resource path="res://images/time_container.png" type="Texture" id=5]
+[ext_resource path="res://fonts/token_label.fnt" type="BitmapFont" id=6]
+[ext_resource path="res://images/score_post.png" type="Texture" id=7]
+[ext_resource path="res://images/menu_button.png" type="Texture" id=8]
+[ext_resource path="res://images/restart_button.png" type="Texture" id=9]
+[ext_resource path="res://images/book.png" type="Texture" id=10]
+[ext_resource path="res://images/broccoli.png" type="Texture" id=11]
+[ext_resource path="res://images/bottom_border.png" type="Texture" id=12]
+[ext_resource path="res://scripts/input_handler.gd" type="Script" id=13]
 
 [sub_resource type="SampleLibrary" id=1]
 
@@ -20,6 +23,17 @@ samples/merge = {
 "priority": 0,
 "sample": ExtResource( 2 )
 }
+
+[sub_resource type="GDScript" id=2]
+
+script/source = "extends Label
+
+func _ready():
+	g.connect(\"current_score_changed\", self, \"set_score\")
+
+func set_score(s):
+	set_text(str(s))
+"
 
 [node name="stage" type="Node"]
 
@@ -94,6 +108,45 @@ transform/pos = Vector2( 540, 125 )
 z/z = -1
 texture = ExtResource( 4 )
 
+[node name="current_score" type="Container" parent="hud/header"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 356.0
+margin/top = 161.0
+margin/right = 396.0
+margin/bottom = 201.0
+
+[node name="container_sprite" type="Sprite" parent="hud/header/current_score"]
+
+transform/pos = Vector2( 12, -2 )
+texture = ExtResource( 5 )
+
+[node name="current_score" type="Label" parent="hud/header/current_score/container_sprite"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -75.0
+margin/top = -38.0
+margin/right = 125.0
+margin/bottom = 32.0
+custom_fonts/font = ExtResource( 6 )
+text = "0"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+script/script = SubResource( 2 )
+
+[node name="post_sprite" type="Sprite" parent="hud/header/current_score"]
+
+transform/pos = Vector2( -174.325, -4.09686 )
+texture = ExtResource( 7 )
+
 [node name="lower_buttons" type="Container" parent="hud"]
 
 focus/ignore_mouse = false
@@ -118,7 +171,7 @@ margin/bottom = 165.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 5 )
+textures/normal = ExtResource( 8 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
@@ -135,7 +188,7 @@ margin/bottom = 170.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 6 )
+textures/normal = ExtResource( 9 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
@@ -152,7 +205,7 @@ margin/bottom = 170.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 7 )
+textures/normal = ExtResource( 10 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
@@ -169,7 +222,7 @@ margin/bottom = 170.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 8 )
+textures/normal = ExtResource( 11 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
@@ -177,7 +230,7 @@ params/stretch_mode = 0
 
 transform/pos = Vector2( 540, 210 )
 z/z = -1
-texture = ExtResource( 9 )
+texture = ExtResource( 12 )
 
 [node name="input_handler" type="Control" parent="."]
 
@@ -189,7 +242,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 1080.0
 margin/bottom = 1920.0
-script/script = ExtResource( 10 )
+script/script = ExtResource( 13 )
 __meta__ = {
 "_edit_lock_": true
 }
