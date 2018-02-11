@@ -9,9 +9,6 @@ const DIRECTIONS = [
 const ANIMATION_TIME = 0.1  # time to travel to the destination, in seconds
 const MERGE_THRESHOLD = 20  # in pixels, distance to the destination to perform a merge
 const MOVEMENT_OPACITY = 0.2  # opacity when moving
-const LABEL_SCALE = Vector2(0.8, 0.8)  # scale factor when the number of digits are increased
-const MODULATION_ON_MERGE = Color(1.0, 0, 0, 1.0)
-const LINEAR_INTERPOLATION_SCALAR = 0.1
 
 const MOTION_DISTANCE = 15  # Minimum distance with the mouse pressed to make a move
 const MINIMUM_DISTANCE_TO_MOVE = 0.6 # Minimum distance from the direction vectors to make a move

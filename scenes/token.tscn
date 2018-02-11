@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://scripts/token.gd" type="Script" id=1]
 [ext_resource path="res://images/token.png" type="Texture" id=2]
+[ext_resource path="res://fonts/palamecia.fnt" type="BitmapFont" id=3]
 
 [sub_resource type="Animation" id=1]
 
@@ -44,7 +45,23 @@ script/script = ExtResource( 1 )
 
 texture = ExtResource( 2 )
 
-[node name="content" type="Sprite" parent="token_sprite"]
+[node name="level" type="Label" parent="token_sprite"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -152.0
+margin/top = 66.0
+margin/right = -72.0
+margin/bottom = 156.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "1"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [node name="animation" type="AnimationPlayer" parent="."]
 

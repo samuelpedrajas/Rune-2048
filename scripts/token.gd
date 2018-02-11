@@ -6,9 +6,11 @@ var current_pos
 var tween
 
 func _set_content():
-	var content = get_node("token_sprite/content")
+	var token_sprite = get_node("token_sprite")
+	var level_label = get_node("token_sprite/level")
 	var texture = get_parent().get_token_content(level)
-	content.set_texture(texture)
+	token_sprite.set_texture(texture)
+	level_label.set_text(str(level + 1))
 
 func _spawn_animation():
 	# play spawn animation
@@ -22,15 +24,9 @@ func setup(pos, t):
 	set_pos(_get_world_pos(pos))
 	_spawn_animation()
 
-func _modulate():
-	var sprite = get_node("token_sprite")
-	var c = sprite.get_modulate()
-	sprite.set_modulate(c.linear_interpolate(cfg.MODULATION_ON_MERGE, cfg.LINEAR_INTERPOLATION_SCALAR))
-
 func _increase_value():
 	level += 1
 	g.handle_merge(level)
-	_modulate()
 	_set_content()
 	# play merge animation
 	get_node("animation").play("merge")
