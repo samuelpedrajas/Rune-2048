@@ -93,6 +93,7 @@ func _spawn_token():
 	matrix[pos] = t
 
 func _handle_game_status():
+	g.save_game()
 	if g.max_current == g.current_goal:
 		g.win()
 		return

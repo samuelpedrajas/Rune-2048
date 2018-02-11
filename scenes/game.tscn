@@ -31,6 +31,7 @@ script/source = "extends Label
 
 func _ready():
 	g.connect(\"current_score_changed\", self, \"set_score\")
+	set_score(g.current_score)
 
 func set_score(s):
 	set_text(str(s))
@@ -42,6 +43,7 @@ script/source = "extends Label
 
 func _ready():
 	g.connect(\"max_score_changed\", self, \"set_max_score\")
+	set_max_score(g.max_score)
 
 func set_max_score(s):
 	set_text(str(s))

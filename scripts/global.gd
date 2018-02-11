@@ -1,5 +1,7 @@
 extends Node
 
+var savegame = File.new()
+
 var max_current = 0
 var max_score = 0 setget _set_max_score
 var current_goal = 0
@@ -19,6 +21,8 @@ func _ready():
 	stage = get_tree().get_root().get_node("stage")
 	next_challenge_index = cfg.DEFAULT_CHALLENGE
 	call_deferred("_next_challenge")
+	if not load_game():
+		save_game()
 
 func _next_challenge():
 	current_challenge = cfg.CHALLENGES[next_challenge_index]
@@ -30,6 +34,22 @@ func handle_merge(v):
 	self.current_score += pow(2, v + 1)
 	self.max_score = max_score if max_score > current_score else current_score
 	self.max_current = v if v > max_current else max_current
+
+func save_game():
+	savegame.open("user://savegame.save", File.WRITE)
+	var game_status = {'max_score': max_score}
+	savegame.store_line(game_status.to_json())
+	savegame.close()
+
+func load_game():
+	if !savegame.file_exists("user://savegame.save"):
+		return false
+
+	var game_status = {}
+	savegame.open("user://savegame.save", File.READ)
+	game_status.parse_json(savegame.get_line())
+	self.max_score = game_status['max_score']
+	savegame.close()
 
 func win():
 	print("Win")
