@@ -8,7 +8,7 @@ var tween
 signal value_changed
 
 func _ready():
-	connect("value_changed", global, "handle_token_increased", [], CONNECT_DEFERRED)
+	connect("value_changed", g, "handle_token_increased", [], CONNECT_DEFERRED)
 
 func _set_label():
 	var n_digits_old = str(level / 2).length()
@@ -16,7 +16,7 @@ func _set_label():
 	var label = get_node("token_sprite/value")
 
 	if n_digits_new != n_digits_old:
-		label.set_scale(label.get_scale() * config.LABEL_SCALE)
+		label.set_scale(label.get_scale() * cfg.LABEL_SCALE)
 		label.set_pos(-label.get_size() * label.get_scale() / 2)
 	label.text = str(level)
 
@@ -35,7 +35,7 @@ func setup(pos, t):
 func _modulate():
 	var sprite = get_node("token_sprite")
 	var c = sprite.get_modulate()
-	sprite.set_modulate(c.linear_interpolate(config.MODULATION_ON_MERGE, config.LINEAR_INTERPOLATION_SCALAR))
+	sprite.set_modulate(c.linear_interpolate(cfg.MODULATION_ON_MERGE, cfg.LINEAR_INTERPOLATION_SCALAR))
 
 func _increase_value():
 	level *= 2
@@ -52,7 +52,7 @@ func _interpolated_move(pos):
 	var d = (world_current_pos - pos).length()
 
 	# if it's close enough -> time to restore the opacity
-	if d < config.MERGE_THRESHOLD:
+	if d < cfg.MERGE_THRESHOLD:
 		if get_opacity() < 1:  # must check, otherwise opacity will be set more than once
 			set_opacity(1)
 		# if it's close enough and flagged as merge -> merge it
@@ -71,9 +71,9 @@ func _define_tweening():
 
 	# interpolate the position
 	tween.interpolate_method(self, "_interpolated_move", get_pos(), world_pos,
-							 config.ANIMATION_TIME, tween.TRANS_LINEAR, tween.EASE_IN)
+							 cfg.ANIMATION_TIME, tween.TRANS_LINEAR, tween.EASE_IN)
 	# decrease opacity for a smoother animation
-	set_opacity(config.MOVEMENT_OPACITY)
+	set_opacity(cfg.MOVEMENT_OPACITY)
 
 func _get_world_pos(pos):
 	var offset = Vector2(336 / 2, 334 / 2)

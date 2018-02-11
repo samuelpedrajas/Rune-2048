@@ -13,11 +13,11 @@ signal new_challenge
 
 func _ready():
 	stage = get_tree().get_root().get_node("stage")
-	next_challenge_index = config.DEFAULT_CHALLENGE
+	next_challenge_index = cfg.DEFAULT_CHALLENGE
 	call_deferred("_next_challenge")
 
 func _next_challenge():
-	current_challenge = config.CHALLENGES[next_challenge_index]
+	current_challenge = cfg.CHALLENGES[next_challenge_index]
 	self.current_goal = current_challenge.goal
 	next_challenge_index += 1
 	stage.prepare_board(current_challenge)

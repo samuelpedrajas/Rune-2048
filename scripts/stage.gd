@@ -26,13 +26,13 @@ func check_moves_available():
 		return
 
 	for current_cell in used_cells:
-		for d in config.DIRECTIONS:
+		for d in cfg.DIRECTIONS:
 			var v = current_cell - d
 			if matrix.has(v) and matrix[v].level == matrix[current_cell].level:
 				return
 
 	# TODO: GAME OVER HERE RATHER THAN PREPARING THE DEFAULT BOARD HERE
-	global.game_over()
+	g.game_over()
 
 func _set_direction_pivots():
 	# get all used cells in the current board
@@ -41,7 +41,7 @@ func _set_direction_pivots():
 	# for each used cell, if it has no previous cell but it has a next one
 	# for a given direction, then it is a pivot for that direction
 	for cell_pos in used_cells:
-		for direction in config.DIRECTIONS:
+		for direction in cfg.DIRECTIONS:
 			var next_pos = (cell_pos + direction)
 			var prev_pos = (cell_pos - direction)
 			if next_pos in used_cells and !(prev_pos in used_cells):
