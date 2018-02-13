@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=1]
+[gd_scene load_steps=15 format=1]
 
 [ext_resource path="res://images/popup.png" type="Texture" id=1]
 [ext_resource path="res://images/window_header.png" type="Texture" id=2]
@@ -6,17 +6,41 @@
 [ext_resource path="res://fonts/polypty.fnt" type="BitmapFont" id=4]
 [ext_resource path="res://images/switch_on.png" type="Texture" id=5]
 [ext_resource path="res://images/switch_off.png" type="Texture" id=6]
-[ext_resource path="res://images/red_large_button.png" type="Texture" id=7]
-[ext_resource path="res://fonts/button.fnt" type="BitmapFont" id=8]
+[ext_resource path="res://images/exit_button.png" type="Texture" id=7]
+[ext_resource path="res://images/exit_button_pressed.png" type="Texture" id=8]
 [ext_resource path="res://images/close_window.png" type="Texture" id=9]
+[ext_resource path="res://images/close_window_pressed.png" type="Texture" id=10]
 
 [sub_resource type="GDScript" id=1]
 
 script/source = "extends TextureButton
 
-
 func _on_switch_hole_toggled(b):
 	g.music_on = b
+"
+
+[sub_resource type="GDScript" id=2]
+
+script/source = "extends TextureButton
+
+func _on_switch_hole_toggled(b):
+	g.sound_on = b
+"
+
+[sub_resource type="GDScript" id=3]
+
+script/source = "extends TextureButton
+
+func _on_exit_button_pressed():
+	get_tree().quit()
+"
+
+[sub_resource type="GDScript" id=4]
+
+script/source = "extends TextureButton
+
+func _ready():
+	pass
 "
 
 [node name="settings" type="Node2D"]
@@ -71,7 +95,7 @@ margin/top = -56.0
 margin/right = -16.0
 margin/bottom = 50.0
 custom_fonts/font = ExtResource( 4 )
-text = "MUSIC"
+text = "MUSIC:"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -83,9 +107,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = -5.0
-margin/top = -77.0
+margin/top = -88.0
 margin/right = 425.0
-margin/bottom = 100.0
+margin/bottom = 89.0
 toggle_mode = true
 enabled_focus_mode = 2
 shortcut = null
@@ -129,9 +153,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = -5.0
-margin/top = -77.0
+margin/top = -85.0
 margin/right = 425.0
-margin/bottom = 100.0
+margin/bottom = 92.0
 toggle_mode = true
 enabled_focus_mode = 2
 shortcut = null
@@ -139,6 +163,7 @@ textures/normal = ExtResource( 5 )
 textures/pressed = ExtResource( 6 )
 params/resize_mode = 0
 params/stretch_mode = 0
+script/script = SubResource( 2 )
 
 [node name="exit_button" type="TextureButton" parent="."]
 
@@ -154,31 +179,34 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 textures/normal = ExtResource( 7 )
-textures/pressed = ExtResource( 7 )
+textures/pressed = ExtResource( 8 )
 params/resize_mode = 0
 params/stretch_mode = 0
+script/script = SubResource( 3 )
 
-[node name="text" type="Label" parent="exit_button"]
+[node name="close_button" type="TextureButton" parent="."]
 
-focus/ignore_mouse = true
+focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 61.0
-margin/top = 35.0
-margin/right = 489.0
-margin/bottom = 108.0
-custom_fonts/font = ExtResource( 8 )
-text = "EXIT GAME"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="close_button" type="Sprite" parent="."]
-
-transform/pos = Vector2( 466.721, -438.904 )
-texture = ExtResource( 9 )
+size_flags/vertical = 2
+margin/left = 363.0
+margin/top = -554.0
+margin/right = 527.0
+margin/bottom = -329.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 9 )
+textures/pressed = ExtResource( 10 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = SubResource( 4 )
 
 [connection signal="toggled" from="switch_music/switch_hole" to="switch_music/switch_hole" method="_on_switch_hole_toggled"]
+
+[connection signal="toggled" from="switch_sound/switch_hole" to="switch_sound/switch_hole" method="_on_switch_hole_toggled"]
+
+[connection signal="pressed" from="exit_button" to="exit_button" method="_on_exit_button_pressed"]
 
 

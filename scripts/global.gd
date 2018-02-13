@@ -2,7 +2,9 @@ extends Node
 
 # SETTINGS
 var music_on = true setget _set_music_on
+var music_node
 var sound_on = true setget _set_sound_on
+var sound_node
 
 var savegame = File.new()
 
@@ -23,6 +25,8 @@ signal new_challenge
 
 func _ready():
 	stage = get_tree().get_root().get_node("stage")
+	music_node = stage.get_node("music")
+	sound_node = stage.get_node("samples")
 	next_challenge_index = cfg.DEFAULT_CHALLENGE
 	call_deferred("_next_challenge")
 	if not load_game():
@@ -72,7 +76,12 @@ func _set_max_score(v):
 	emit_signal("max_score_changed", max_score)
 
 func _set_music_on(v):
+	if v:
+		music_node.stop()
+	else:
+		music_node.play()
 	music_on = v
 
 func _set_sound_on(v):
+	sound_node.set_default_volume(float(not v))
 	sound_on = v
