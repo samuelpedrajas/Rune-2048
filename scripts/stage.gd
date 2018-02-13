@@ -11,6 +11,9 @@ var tween
 onready var token = preload("res://scenes/token.tscn")
 
 func _ready():
+	# prevent quitting using back button
+	g.current_window = "main"
+	get_tree().set_auto_accept_quit(false)
 	input_handler = get_node("input_handler")
 	input_handler.connect("user_input", self, "move")
 	tween = get_node("tween")
@@ -175,3 +178,10 @@ func _move_token(token, destination):
 	
 		token.current_pos = destination  # update the current position
 		token.define_tweening()
+
+func _notification(what):
+	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+		if g.current_window == "main":
+			get_tree().quit()
+		elif g.current_window == "settings" and has_node("hud/settings"):
+			get_node("hud/settings").close()

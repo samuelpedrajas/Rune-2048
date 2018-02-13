@@ -10,6 +10,7 @@ func setup(music_on, sound_on, pos):
 	sound_switch.set_pressed(not sound_on)
 	set_pos(pos)
 	animation = get_node("animation")
+	g.current_window = "settings"
 
 func close():
 	animation.play("close")
@@ -23,5 +24,6 @@ func _on_settings_enter_tree():
 
 func _on_animation_finished():
 	if is_closing:
+		g.current_window = "main"
 		get_tree().set_pause(false)
 		queue_free()

@@ -1,5 +1,8 @@
 extends Node
 
+# CURRENT WINDOW
+var current_window = "main"
+
 # SETTINGS
 var music_on = true setget _set_music_on
 var music_node
