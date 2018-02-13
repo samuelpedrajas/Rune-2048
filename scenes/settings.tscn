@@ -12,7 +12,7 @@
 [ext_resource path="res://images/close_window.png" type="Texture" id=10]
 [ext_resource path="res://images/close_window_pressed.png" type="Texture" id=11]
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=1]
 
 resource/name = "close"
 length = 0.1
@@ -29,7 +29,7 @@ tracks/0/keys = {
 "values": [ 1.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=2]
 
 resource/name = "open"
 length = 0.12
@@ -56,36 +56,40 @@ tracks/1/keys = {
 "values": [ 0.0, 1.0 ]
 }
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id=3]
 
 script/source = "extends TextureButton
 
 func _on_switch_toggled(b):
 	g.music_on = not b
-"
-
-[sub_resource type="GDScript" id=2]
-
-script/source = "extends TextureButton
-
-func _on_switch_toggled(b):
-	g.sound_on = not b
-"
-
-[sub_resource type="GDScript" id=3]
-
-script/source = "extends TextureButton
-
-func _on_exit_button_pressed():
-	g.save_game()
-	get_tree().quit()
+	g.play_audio(\"click\")
 "
 
 [sub_resource type="GDScript" id=4]
 
 script/source = "extends TextureButton
 
+func _on_switch_toggled(b):
+	g.sound_on = not b
+	g.play_audio(\"click\")
+"
+
+[sub_resource type="GDScript" id=5]
+
+script/source = "extends TextureButton
+
+func _on_exit_button_pressed():
+	g.play_audio(\"click\")
+	g.save_game()
+	get_tree().quit()
+"
+
+[sub_resource type="GDScript" id=6]
+
+script/source = "extends TextureButton
+
 func _on_close_button_pressed():
+	g.play_audio(\"click\")
 	get_parent().get_parent().close()
 "
 
@@ -116,8 +120,8 @@ flat = false
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/close = SubResource( 6 )
-anims/open = SubResource( 5 )
+anims/close = SubResource( 1 )
+anims/open = SubResource( 2 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -167,7 +171,6 @@ max_lines_visible = -1
 
 [node name="music_control" type="Control" parent="window"]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -210,11 +213,10 @@ textures/normal = ExtResource( 6 )
 textures/pressed = ExtResource( 7 )
 params/resize_mode = 0
 params/stretch_mode = 0
-script/script = SubResource( 1 )
+script/script = SubResource( 3 )
 
 [node name="sound_control" type="Control" parent="window"]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -257,7 +259,7 @@ textures/normal = ExtResource( 6 )
 textures/pressed = ExtResource( 7 )
 params/resize_mode = 0
 params/stretch_mode = 0
-script/script = SubResource( 2 )
+script/script = SubResource( 4 )
 
 [node name="exit_button" type="TextureButton" parent="window"]
 
@@ -276,7 +278,7 @@ textures/normal = ExtResource( 8 )
 textures/pressed = ExtResource( 9 )
 params/resize_mode = 0
 params/stretch_mode = 0
-script/script = SubResource( 3 )
+script/script = SubResource( 5 )
 
 [node name="close_button" type="TextureButton" parent="window"]
 
@@ -295,7 +297,7 @@ textures/normal = ExtResource( 10 )
 textures/pressed = ExtResource( 11 )
 params/resize_mode = 0
 params/stretch_mode = 0
-script/script = SubResource( 4 )
+script/script = SubResource( 6 )
 
 [connection signal="enter_tree" from="." to="." method="_on_settings_enter_tree"]
 

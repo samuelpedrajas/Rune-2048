@@ -17,6 +17,7 @@ var current_goal = 0
 var current_score = 0 setget _set_current_score
 
 var stage
+var audio
 var current_challenge
 var next_challenge_index
 
@@ -28,6 +29,7 @@ signal new_challenge
 
 func _ready():
 	stage = get_tree().get_root().get_node("stage")
+	audio = stage.get_node("samples")
 	music_node = stage.get_node("music")
 	sound_node = stage.get_node("samples")
 	next_challenge_index = cfg.DEFAULT_CHALLENGE
@@ -40,6 +42,9 @@ func _next_challenge():
 	self.current_goal = current_challenge.goal
 	next_challenge_index += 1
 	stage.prepare_board(current_challenge.board)
+
+func play_audio(sample):
+	audio.play(sample)
 
 func handle_merge(v):
 	self.current_score += pow(2, v + 1)
