@@ -13,6 +13,7 @@ func setup(music_on, sound_on, pos):
 	g.current_window = "settings"
 
 func close():
+	g.save_game()
 	animation.play("close")
 	is_closing = true
 

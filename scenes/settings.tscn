@@ -77,6 +77,7 @@ func _on_switch_toggled(b):
 script/source = "extends TextureButton
 
 func _on_exit_button_pressed():
+	g.save_game()
 	get_tree().quit()
 "
 
@@ -124,7 +125,6 @@ autoplay = ""
 
 [node name="window" type="Node2D" parent="."]
 
-editor/display_folded = true
 transform/scale = Vector2( 0.75, 0.75 )
 
 [node name="non_clickable_area" type="Control" parent="window"]

@@ -48,7 +48,11 @@ func handle_merge(v):
 
 func save_game():
 	savegame.open("user://savegame.save", File.WRITE)
-	var game_status = {'max_score': max_score}
+	var game_status = {
+		'max_score': max_score,
+		'music_on': music_on,
+		'sound_on': sound_on
+	}
 	savegame.store_line(game_status.to_json())
 	savegame.close()
 
@@ -60,6 +64,8 @@ func load_game():
 	savegame.open("user://savegame.save", File.READ)
 	game_status.parse_json(savegame.get_line())
 	self.max_score = game_status['max_score']
+	self.music_on = game_status['music_on']
+	self.sound_on = game_status['sound_on']
 	savegame.close()
 
 func win():
