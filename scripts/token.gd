@@ -18,6 +18,7 @@ func define_tweening():
 	set_opacity(cfg.MOVEMENT_OPACITY)
 
 func update_state():
+	set_pos(_get_world_pos(current_pos))
 	if get_opacity() < 1:  # must check, otherwise opacity will be set more than once
 		set_opacity(1)
 	# if it's close enough and flagged as merge -> merge it
@@ -25,6 +26,7 @@ func update_state():
 		token_to_merge_with._increase_value()
 		token_to_merge_with = null
 		tween.remove(self, 'set_pos')
+		hide()
 		queue_free()
 		return
 
