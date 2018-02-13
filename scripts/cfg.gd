@@ -20,3 +20,5 @@ const CHALLENGES = [
 	}
 ]
 const DEFAULT_CHALLENGE = 0
+
+const SETTINGS_WINDOW_POS = Vector2(540, 1000)

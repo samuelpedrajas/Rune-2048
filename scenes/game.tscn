@@ -57,10 +57,10 @@ script/source = "extends TextureButton
 onready var settings = preload(\"res://scenes/settings.tscn\")
 
 func _on_menu_pressed():
-	if not g.stage.has_node(\"settings\"):
+	if not g.stage.has_node(\"hud/settings\"):
 		var window = settings.instance()
-		window.setup(g.music_on, g.sound_on, Vector2(540, 1200))
-		g.stage.add_child(window)
+		window.setup(g.music_on, g.sound_on, cfg.SETTINGS_WINDOW_POS)
+		g.stage.get_node(\"hud\").add_child(window)
 		get_tree().set_pause(true)
 "
 
@@ -104,6 +104,7 @@ texture = ExtResource( 4 )
 
 [node name="hud" type="CanvasLayer" parent="."]
 
+editor/display_folded = true
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
@@ -111,7 +112,6 @@ scale = Vector2( 1, 1 )
 
 [node name="header" type="Container" parent="hud"]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -120,17 +120,6 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 1080.0
 margin/bottom = 225.0
-
-[node name="badges" type="Container" parent="hud/header"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 150.0
-margin/right = 1080.0
-margin/bottom = 450.0
 
 [node name="top_border" type="Sprite" parent="hud/header"]
 
