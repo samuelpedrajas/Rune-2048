@@ -1,5 +1,9 @@
 extends Node
 
+# SETTINGS
+var music_on = true setget _set_music_on
+var sound_on = true setget _set_sound_on
+
 var savegame = File.new()
 
 var max_current = 0
@@ -66,3 +70,9 @@ func _set_current_score(v):
 func _set_max_score(v):
 	max_score = v
 	emit_signal("max_score_changed", max_score)
+
+func _set_music_on(v):
+	music_on = v
+
+func _set_sound_on(v):
+	sound_on = v
