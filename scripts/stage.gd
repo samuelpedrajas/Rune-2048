@@ -87,12 +87,17 @@ func _get_empty_position():
 
 func _spawn_token():
 	var pos = _get_empty_position()
+	if pos == null:
+		return
+
 	var t = token.instance()
 	current_board.add_child(t)  # t.setup() needs access to the board, so add it before
 	t.setup(pos, tween)
 	matrix[pos] = t
 
 func _handle_game_status():
+	for token in get_tree().get_nodes_in_group("token"):
+		token.update_state()
 	g.save_game()
 	if g.max_current == g.current_goal:
 		g.win()
@@ -100,6 +105,7 @@ func _handle_game_status():
 	_spawn_token()
 	if not check_moves_available():
 		g.game_over()
+	input_handler.blocked = false
 
 func move(direction):
 	# information about the events in the board
@@ -120,6 +126,7 @@ func move(direction):
 		get_node("samples").play("merge")
 
 	if board_changed.movement:
+		input_handler.blocked = true
 		tween.start()
 		# When the animation of all tokens is finished -> prepare next round
 		tween.interpolate_callback(self, tween.get_runtime(), "_handle_game_status")
@@ -162,9 +169,9 @@ func _move_token(token, destination):
 	if token.current_pos != destination:
 		matrix.erase(token.current_pos)  # the token is not in that position anymore
 		# update the token position in the matrix if it's not gonna be merged
-		# (otherwise we'll override the token that's gonna be increased)
+		# (otherwise we'd override the token that's gonna be increased)
 		if !token.token_to_merge_with:
 			matrix[destination] = token
 	
 		token.current_pos = destination  # update the current position
-		token._define_tweening()
+		token.define_tweening()

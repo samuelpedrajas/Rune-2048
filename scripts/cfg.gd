@@ -7,7 +7,6 @@ const DIRECTIONS = [
 ]
 
 const ANIMATION_TIME = 0.1  # time to travel to the destination, in seconds
-const MERGE_THRESHOLD = 20  # in pixels, distance to the destination to perform a merge
 const MOVEMENT_OPACITY = 0.2  # opacity when moving
 
 const MOTION_DISTANCE = 15  # Minimum distance with the mouse pressed to make a move

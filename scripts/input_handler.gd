@@ -4,6 +4,8 @@ var tap_start_position
 
 signal user_input
 
+var blocked = false
+
 func _check_move(input_vector):
 	if input_vector.length() > cfg.MOTION_DISTANCE:
 		# Don't needed, but could improve performance?
@@ -16,6 +18,8 @@ func _check_move(input_vector):
 				break
 
 func _input_event(event):
+	if blocked:
+		return
 	if event.is_action_pressed("click"):
 		# if clicked, save the position
 		tap_start_position = event.pos

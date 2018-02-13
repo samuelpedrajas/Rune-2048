@@ -37,7 +37,9 @@ tracks/0/keys = {
 "values": [ Vector2( 1e-05, 1e-05 ), Vector2( 1, 1 ) ]
 }
 
-[node name="token" type="Node2D"]
+[node name="token" type="Node2D" groups=[
+"token",
+]]
 
 script/script = ExtResource( 1 )
 
