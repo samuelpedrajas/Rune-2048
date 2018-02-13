@@ -77,11 +77,11 @@ func _set_max_score(v):
 
 func _set_music_on(v):
 	if v:
-		music_node.stop()
-	else:
 		music_node.play()
+	else:
+		music_node.stop()
 	music_on = v
 
 func _set_sound_on(v):
-	sound_node.set_default_volume(float(not v))
+	sound_node.set_default_volume(float(v))
 	sound_on = v
