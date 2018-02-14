@@ -37,10 +37,12 @@ func _on_switch_music_toggled(b):
 
 
 func _on_exit_button_pressed():
+	g.play_audio("click")
 	g.open_popup("exit_confirmation")
 
 
 func _on_close_button_pressed():
+	g.play_audio("click")
 	g.close_popup()
 
 

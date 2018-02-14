@@ -13,7 +13,7 @@ func setup(pos, t):
 	current_pos = pos
 	_set_content()
 	set_pos(_get_world_pos(pos))
-	_spawn_animation()
+	get_node("animation").play("spawn")
 
 
 func is_merging():
@@ -61,11 +61,6 @@ func _set_content():
 	var texture = get_parent().get_token_content(level)
 	token_sprite.set_texture(texture)
 	level_label.set_text(str(level))
-
-
-func _spawn_animation():
-	# play spawn animation
-	get_node("animation").play("spawn")
 
 
 func _get_world_pos(pos):

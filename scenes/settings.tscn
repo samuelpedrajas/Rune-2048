@@ -52,6 +52,17 @@ flat = false
 
 transform/scale = Vector2( 0.75, 0.75 )
 
+[node name="non_clickable_space" type="Control" parent="window"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -500.0
+margin/top = -680.0
+margin/right = 500.0
+margin/bottom = 320.0
+
 [node name="background" type="Sprite" parent="window"]
 
 transform/pos = Vector2( 0, -102.751 )

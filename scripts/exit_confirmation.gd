@@ -22,10 +22,12 @@ func _on_animation_finished():
 
 
 func _on_ok_button_pressed():
+	g.play_audio("click")
 	get_tree().quit()
 
 
 func _on_cancel_button_pressed():
+	g.play_audio("click")
 	g.close_popup()
 
 

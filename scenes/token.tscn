@@ -43,14 +43,11 @@ tracks/0/keys = {
 
 script/script = ExtResource( 1 )
 
-[node name="shadow" type="Sprite" parent="."]
-
-transform/pos = Vector2( 2, 2 )
-texture = ExtResource( 2 )
-
 [node name="token_sprite" type="Sprite" parent="."]
 
+transform/scale = Vector2( 1e-05, 1e-05 )
 texture = ExtResource( 2 )
+offset = Vector2( 5, 5 )
 
 [node name="level" type="Label" parent="token_sprite"]
 
