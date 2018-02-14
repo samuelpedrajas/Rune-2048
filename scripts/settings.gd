@@ -24,3 +24,25 @@ func _ready():
 func _on_animation_finished():
 	if is_closing:
 		queue_free()
+
+
+func _on_switch_sound_toggled(b):
+	g.sound_on = not b
+	g.play_audio("click")
+
+
+func _on_switch_music_toggled(b):
+	g.music_on = not b
+	g.play_audio("click")
+
+
+func _on_exit_button_pressed():
+	g.open_popup("exit_confirmation")
+
+
+func _on_close_button_pressed():
+	g.close_popup()
+
+
+func _on_clickable_space_pressed():
+	g.close_popup()

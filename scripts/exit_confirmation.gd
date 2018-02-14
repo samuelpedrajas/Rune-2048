@@ -19,3 +19,15 @@ func _ready():
 func _on_animation_finished():
 	if is_closing:
 		queue_free()
+
+
+func _on_ok_button_pressed():
+	get_tree().quit()
+
+
+func _on_cancel_button_pressed():
+	g.close_popup()
+
+
+func _on_clickable_space_pressed():
+	g.close_popup()

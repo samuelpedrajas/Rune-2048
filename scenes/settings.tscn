@@ -1,95 +1,18 @@
-[gd_scene load_steps=18 format=1]
+[gd_scene load_steps=14 format=1]
 
 [ext_resource path="res://scripts/settings.gd" type="Script" id=1]
-[ext_resource path="res://images/popup.png" type="Texture" id=2]
-[ext_resource path="res://images/window_header.png" type="Texture" id=3]
-[ext_resource path="res://fonts/window_title.fnt" type="BitmapFont" id=4]
-[ext_resource path="res://fonts/polypty.fnt" type="BitmapFont" id=5]
-[ext_resource path="res://images/switch_on.png" type="Texture" id=6]
-[ext_resource path="res://images/switch_off.png" type="Texture" id=7]
-[ext_resource path="res://images/exit_button.png" type="Texture" id=8]
-[ext_resource path="res://images/exit_button_pressed.png" type="Texture" id=9]
-[ext_resource path="res://images/close_window.png" type="Texture" id=10]
-[ext_resource path="res://images/close_window_pressed.png" type="Texture" id=11]
-
-[sub_resource type="Animation" id=1]
-
-resource/name = "close"
-length = 0.15
-loop = false
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("window:visibility/opacity")
-tracks/0/interp = 1
-tracks/0/imported = false
-tracks/0/keys = {
-"times": FloatArray( 0, 0.15 ),
-"transitions": FloatArray( 1, 1 ),
-"update": 0,
-"values": [ 1.0, 0.0 ]
-}
-
-[sub_resource type="Animation" id=2]
-
-resource/name = "open"
-length = 0.12
-loop = false
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("window:transform/scale")
-tracks/0/interp = 1
-tracks/0/imported = false
-tracks/0/keys = {
-"times": FloatArray( 0, 0.1, 0.12 ),
-"transitions": FloatArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0.1, 0.1 ), Vector2( 0.85, 0.85 ), Vector2( 0.75, 0.75 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("window:visibility/opacity")
-tracks/1/interp = 1
-tracks/1/imported = false
-tracks/1/keys = {
-"times": FloatArray( 0, 0.12 ),
-"transitions": FloatArray( 1, 1 ),
-"update": 0,
-"values": [ 0.0, 1.0 ]
-}
-
-[sub_resource type="GDScript" id=3]
-
-script/source = "extends TextureButton
-
-func _on_switch_toggled(b):
-	g.music_on = not b
-	g.play_audio(\"click\")
-"
-
-[sub_resource type="GDScript" id=4]
-
-script/source = "extends TextureButton
-
-func _on_switch_toggled(b):
-	g.sound_on = not b
-	g.play_audio(\"click\")
-"
-
-[sub_resource type="GDScript" id=5]
-
-script/source = "extends TextureButton
-
-
-func _on_exit_button_pressed():
-	g.open_popup(\"exit_confirmation\")
-"
-
-[sub_resource type="GDScript" id=6]
-
-script/source = "extends TextureButton
-
-func _on_close_button_pressed():
-	g.close_popup()
-"
+[ext_resource path="res://animations/close_window.tres" type="Animation" id=2]
+[ext_resource path="res://animations/open_window.tres" type="Animation" id=3]
+[ext_resource path="res://images/popup.png" type="Texture" id=4]
+[ext_resource path="res://images/window_header.png" type="Texture" id=5]
+[ext_resource path="res://fonts/window_title.fnt" type="BitmapFont" id=6]
+[ext_resource path="res://fonts/polypty.fnt" type="BitmapFont" id=7]
+[ext_resource path="res://images/switch_on.png" type="Texture" id=8]
+[ext_resource path="res://images/switch_off.png" type="Texture" id=9]
+[ext_resource path="res://images/exit_button.png" type="Texture" id=10]
+[ext_resource path="res://images/exit_button_pressed.png" type="Texture" id=11]
+[ext_resource path="res://images/close_window.png" type="Texture" id=12]
+[ext_resource path="res://images/close_window_pressed.png" type="Texture" id=13]
 
 [node name="settings" type="Node2D"]
 
@@ -102,50 +25,55 @@ script/script = ExtResource( 1 )
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/close = SubResource( 1 )
-anims/open = SubResource( 2 )
+anims/close = ExtResource( 2 )
+anims/open = ExtResource( 3 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
 
-[node name="window" type="Node2D" parent="."]
+[node name="clickable_space" type="Button" parent="."]
 
-transform/scale = Vector2( 0.75, 0.75 )
-
-[node name="non_clickable_area" type="Control" parent="window"]
-
+visibility/opacity = 0.0
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = -540.0
-margin/top = -649.0
+margin/top = -2400.0
 margin/right = 540.0
-margin/bottom = 327.0
+margin/bottom = 2400.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+
+[node name="window" type="Node2D" parent="."]
+
+transform/scale = Vector2( 0.75, 0.75 )
 
 [node name="background" type="Sprite" parent="window"]
 
 transform/pos = Vector2( 0, -102.751 )
 transform/scale = Vector2( 1, 0.802781 )
-texture = ExtResource( 2 )
+texture = ExtResource( 4 )
 
 [node name="header" type="Sprite" parent="window"]
 
 transform/pos = Vector2( 0, -540 )
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 
-[node name="title" type="Label" parent="window"]
+[node name="title" type="Label" parent="window/header"]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = -201.0
-margin/top = -574.0
+margin/top = -34.0
 margin/right = 272.0
-margin/bottom = -479.0
-custom_fonts/font = ExtResource( 4 )
+margin/bottom = 61.0
+custom_fonts/font = ExtResource( 6 )
 text = "SETTINGS"
 percent_visible = 1.0
 lines_skipped = 0
@@ -172,7 +100,7 @@ margin/left = -403.0
 margin/top = -56.0
 margin/right = -16.0
 margin/bottom = 50.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 7 )
 text = "MUSIC:"
 percent_visible = 1.0
 lines_skipped = 0
@@ -191,11 +119,10 @@ margin/bottom = 89.0
 toggle_mode = true
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 6 )
-textures/pressed = ExtResource( 7 )
+textures/normal = ExtResource( 8 )
+textures/pressed = ExtResource( 9 )
 params/resize_mode = 0
 params/stretch_mode = 0
-script/script = SubResource( 3 )
 
 [node name="sound_control" type="Control" parent="window"]
 
@@ -218,7 +145,7 @@ margin/left = -403.0
 margin/top = -56.0
 margin/right = -16.0
 margin/bottom = 50.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 7 )
 text = "SOUND:"
 percent_visible = 1.0
 lines_skipped = 0
@@ -237,11 +164,10 @@ margin/bottom = 92.0
 toggle_mode = true
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 6 )
-textures/pressed = ExtResource( 7 )
+textures/normal = ExtResource( 8 )
+textures/pressed = ExtResource( 9 )
 params/resize_mode = 0
 params/stretch_mode = 0
-script/script = SubResource( 4 )
 
 [node name="exit_button" type="TextureButton" parent="window"]
 
@@ -256,11 +182,10 @@ margin/bottom = 231.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 8 )
-textures/pressed = ExtResource( 9 )
+textures/normal = ExtResource( 10 )
+textures/pressed = ExtResource( 11 )
 params/resize_mode = 0
 params/stretch_mode = 0
-script/script = SubResource( 5 )
 
 [node name="close_button" type="TextureButton" parent="window"]
 
@@ -275,20 +200,21 @@ margin/bottom = -329.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 10 )
-textures/pressed = ExtResource( 11 )
+textures/normal = ExtResource( 12 )
+textures/pressed = ExtResource( 13 )
 params/resize_mode = 0
 params/stretch_mode = 0
-script/script = SubResource( 6 )
 
 [connection signal="finished" from="animation" to="." method="_on_animation_finished"]
 
-[connection signal="toggled" from="window/music_control/switch" to="window/music_control/switch" method="_on_switch_toggled"]
+[connection signal="pressed" from="clickable_space" to="." method="_on_clickable_space_pressed"]
 
-[connection signal="toggled" from="window/sound_control/switch" to="window/sound_control/switch" method="_on_switch_toggled"]
+[connection signal="toggled" from="window/music_control/switch" to="." method="_on_switch_music_toggled"]
 
-[connection signal="pressed" from="window/exit_button" to="window/exit_button" method="_on_exit_button_pressed"]
+[connection signal="toggled" from="window/sound_control/switch" to="." method="_on_switch_sound_toggled"]
 
-[connection signal="pressed" from="window/close_button" to="window/close_button" method="_on_close_button_pressed"]
+[connection signal="pressed" from="window/exit_button" to="." method="_on_exit_button_pressed"]
+
+[connection signal="pressed" from="window/close_button" to="." method="_on_close_button_pressed"]
 
 
