@@ -1,6 +1,6 @@
 [gd_scene load_steps=28 format=1]
 
-[ext_resource path="res://scripts/stage.gd" type="Script" id=1]
+[ext_resource path="res://scripts/game.gd" type="Script" id=1]
 [ext_resource path="res://audio/click.smp" type="Sample" id=2]
 [ext_resource path="res://audio/merge.smp" type="Sample" id=3]
 [ext_resource path="res://audio/arcade_game.ogg" type="AudioStream" id=4]
@@ -45,8 +45,8 @@ samples/merge = {
 script/source = "extends Label
 
 func _ready():
-	g.connect(\"current_score_changed\", self, \"set_score\")
-	set_score(g.current_score)
+	g.game.connect(\"current_score_changed\", self, \"set_score\")
+	set_score(g.game.current_score)
 
 func set_score(s):
 	set_text(str(s))
@@ -57,8 +57,8 @@ func set_score(s):
 script/source = "extends Label
 
 func _ready():
-	g.connect(\"highest_score_changed\", self, \"set_highest_score\")
-	set_highest_score(g.highest_score)
+	g.game.connect(\"highest_score_changed\", self, \"set_highest_score\")
+	set_highest_score(g.game.highest_score)
 
 func set_highest_score(s):
 	set_text(str(s))
@@ -71,15 +71,15 @@ script/source = "extends TextureButton
 onready var settings = preload(\"res://scenes/settings.tscn\")
 
 func _on_menu_pressed():
-	if not g.stage.has_node(\"hud/settings\"):
+	if not g.game.has_node(\"hud/settings\"):
 		g.play_audio(\"click\")
 		var window = settings.instance()
 		window.setup(g.music_on, g.sound_on, cfg.SETTINGS_WINDOW_POS)
-		g.stage.get_node(\"hud\").add_child(window)
+		g.game.get_node(\"hud\").add_child(window)
 		get_tree().set_pause(true)
 "
 
-[node name="stage" type="Node2D"]
+[node name="game" type="Node2D"]
 
 script/script = ExtResource( 1 )
 
@@ -149,7 +149,6 @@ tile_data = IntArray( 0, 0, 1, 0, 2, 0, 65536, 0, 65537, 0, 65538, 0, 131072, 0,
 
 [node name="hud" type="CanvasLayer" parent="."]
 
-editor/display_folded = true
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
