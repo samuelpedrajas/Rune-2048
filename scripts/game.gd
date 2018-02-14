@@ -1,7 +1,7 @@
 extends Node
 
 # game scores
-var current_max = 0
+var current_max = 1
 var highest_score = 0 setget _set_highest_score
 var current_score = 0 setget _set_current_score
 
@@ -27,7 +27,7 @@ onready var token = preload("res://scenes/token.tscn")
 func restart_game():
 	# here the screen is already black
 	self.current_score = 0
-	current_max = 0
+	current_max = 1
 	# remove all tokens from the tween
 	tween.remove_all()
 	# clear the matrix
@@ -41,10 +41,6 @@ func restart_game():
 
 
 func _ready():
-	# prevent quitting using back button
-	g.current_window = "main"
-	get_tree().set_auto_accept_quit(false)
-
 	# get some child nodes
 	input_handler = get_node("input_handler")
 	tween = get_node("tween")
@@ -80,13 +76,11 @@ func _set_direction_pivots():
 
 func win():
 	print("Win")
-	input_handler.blocked = true
 	g.transition.restart_game()
 
 
 func game_over():
 	print("Game over")
-	input_handler.blocked = true
 	g.transition.restart_game()
 
 
@@ -177,7 +171,11 @@ func _handle_game_status():
 	# update score and update token state
 	for token in get_tree().get_nodes_in_group("token"):
 		if token.is_merging():
-			_handle_merge(token.level)
+			# manage scores
+			var achieved_level = token.level + 1
+			self.current_score += pow(2, achieved_level)
+			self.highest_score = highest_score if highest_score > current_score else current_score
+			self.current_max = achieved_level if achieved_level > current_max else current_max
 		token.update_state()
 
 	g.save_game()
@@ -190,12 +188,6 @@ func _handle_game_status():
 		if not _check_moves_available():
 			game_over()
 		input_handler.blocked = false
-
-
-func _handle_merge(v):
-	self.current_score += pow(2, v)
-	self.highest_score = highest_score if highest_score > current_score else current_score
-	self.current_max = v if v > current_max else current_max
 
 
 func _spawn_token():
@@ -237,14 +229,6 @@ func _check_moves_available():
 			if matrix.has(v) and matrix[v].level == matrix[current_cell].level:
 				return true
 	return false
-
-
-func _notification(what):
-	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
-		if g.current_window == "main":
-			get_tree().quit()
-		elif g.current_window == "settings" and has_node("hud/settings"):
-			get_node("hud/settings").close()
 
 
 func _set_current_score(v):

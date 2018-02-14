@@ -8,21 +8,21 @@
 [ext_resource path="res://scripts/board.gd" type="Script" id=6]
 [ext_resource path="res://images/board_bg.png" type="Texture" id=7]
 [ext_resource path="res://tileset/tileset.tres" type="TileSet" id=8]
-[ext_resource path="res://images/top_panel.png" type="Texture" id=9]
-[ext_resource path="res://images/time_container.png" type="Texture" id=10]
-[ext_resource path="res://fonts/token_label.fnt" type="BitmapFont" id=11]
-[ext_resource path="res://images/score_post.png" type="Texture" id=12]
-[ext_resource path="res://images/max_score_post.png" type="Texture" id=13]
-[ext_resource path="res://images/menu_button.png" type="Texture" id=14]
-[ext_resource path="res://images/menu_button_pressed.png" type="Texture" id=15]
-[ext_resource path="res://images/restart_button.png" type="Texture" id=16]
-[ext_resource path="res://images/restart_button_pressed.png" type="Texture" id=17]
-[ext_resource path="res://images/book.png" type="Texture" id=18]
-[ext_resource path="res://images/book_pressed.png" type="Texture" id=19]
-[ext_resource path="res://images/broccoli.png" type="Texture" id=20]
-[ext_resource path="res://images/broccoli_pressed.png" type="Texture" id=21]
-[ext_resource path="res://images/bottom_border.png" type="Texture" id=22]
-[ext_resource path="res://scripts/input_handler.gd" type="Script" id=23]
+[ext_resource path="res://scripts/input_handler.gd" type="Script" id=9]
+[ext_resource path="res://images/top_panel.png" type="Texture" id=10]
+[ext_resource path="res://images/time_container.png" type="Texture" id=11]
+[ext_resource path="res://fonts/token_label.fnt" type="BitmapFont" id=12]
+[ext_resource path="res://images/score_post.png" type="Texture" id=13]
+[ext_resource path="res://images/max_score_post.png" type="Texture" id=14]
+[ext_resource path="res://images/menu_button.png" type="Texture" id=15]
+[ext_resource path="res://images/menu_button_pressed.png" type="Texture" id=16]
+[ext_resource path="res://images/restart_button.png" type="Texture" id=17]
+[ext_resource path="res://images/restart_button_pressed.png" type="Texture" id=18]
+[ext_resource path="res://images/book.png" type="Texture" id=19]
+[ext_resource path="res://images/book_pressed.png" type="Texture" id=20]
+[ext_resource path="res://images/broccoli.png" type="Texture" id=21]
+[ext_resource path="res://images/broccoli_pressed.png" type="Texture" id=22]
+[ext_resource path="res://images/bottom_border.png" type="Texture" id=23]
 [ext_resource path="res://images/black_screen.png" type="Texture" id=24]
 
 [sub_resource type="SampleLibrary" id=1]
@@ -69,15 +69,8 @@ func set_highest_score(s):
 
 script/source = "extends TextureButton
 
-onready var settings = preload(\"res://scenes/settings.tscn\")
-
 func _on_menu_pressed():
-	if not g.game.has_node(\"hud/settings\"):
-		g.play_audio(\"click\")
-		var window = settings.instance()
-		window.setup(g.music_on, g.sound_on, cfg.SETTINGS_WINDOW_POS)
-		g.game.get_node(\"hud\").add_child(window)
-		get_tree().set_pause(true)
+	g.open_popup(\"settings\")
 "
 
 [sub_resource type="Animation" id=5]
@@ -122,6 +115,7 @@ var current_animation
 
 
 func restart_game():
+	get_tree().set_pause(true)
 	play(\"close\")
 
 
@@ -133,6 +127,8 @@ func _on_transition_finished():
 	if current_animation == \"close\":
 		g.game.restart_game()
 		play(\"open\")
+	else:
+		get_tree().set_pause(false)
 "
 
 [node name="game" type="Node2D"]
@@ -166,6 +162,13 @@ stream/autoplay = true
 stream/paused = false
 stream/loop_restart_time = 0.0
 stream/buffering_ms = 500
+
+[node name="tween" type="Tween" parent="."]
+
+playback/process_mode = 1
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
 
 [node name="background" type="Sprite" parent="."]
 
@@ -204,9 +207,20 @@ collision/mask = 1
 occluder/light_mask = 1
 tile_data = IntArray( 0, 0, 1, 0, 2, 0, 65536, 0, 65537, 0, 65538, 0, 131072, 0, 131073, 0, 131074, 0 )
 
+[node name="input_handler" type="Control" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 453.0
+margin/right = 1080.0
+margin/bottom = 1580.0
+script/script = ExtResource( 9 )
+
 [node name="hud" type="CanvasLayer" parent="."]
 
-editor/display_folded = true
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
@@ -227,7 +241,7 @@ margin/bottom = 225.0
 
 transform/pos = Vector2( 540, 125 )
 z/z = -1
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 
 [node name="current_score" type="Container" parent="hud/header"]
 
@@ -244,7 +258,7 @@ margin/bottom = 201.0
 [node name="container_sprite" type="Sprite" parent="hud/header/current_score"]
 
 transform/pos = Vector2( 12, -2 )
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 
 [node name="current_score" type="Label" parent="hud/header/current_score/container_sprite"]
 
@@ -256,7 +270,7 @@ margin/left = -82.0
 margin/top = -38.0
 margin/right = 118.0
 margin/bottom = 32.0
-custom_fonts/font = ExtResource( 11 )
+custom_fonts/font = ExtResource( 12 )
 text = "0"
 align = 2
 percent_visible = 1.0
@@ -267,10 +281,11 @@ script/script = SubResource( 2 )
 [node name="post_sprite" type="Sprite" parent="hud/header/current_score"]
 
 transform/pos = Vector2( -174.325, -4.09686 )
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 
 [node name="max_score" type="Container" parent="hud/header"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -284,7 +299,7 @@ margin/bottom = 203.0
 
 editor/display_folded = true
 transform/pos = Vector2( 12, -2 )
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 
 [node name="max_score" type="Label" parent="hud/header/max_score/container_sprite"]
 
@@ -296,7 +311,7 @@ margin/left = -82.0
 margin/top = -38.0
 margin/right = 118.0
 margin/bottom = 32.0
-custom_fonts/font = ExtResource( 11 )
+custom_fonts/font = ExtResource( 12 )
 text = "0"
 align = 2
 percent_visible = 1.0
@@ -307,7 +322,7 @@ script/script = SubResource( 3 )
 [node name="post_sprite" type="Sprite" parent="hud/header/max_score"]
 
 transform/pos = Vector2( -147.325, -4.09686 )
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 
 [node name="lower_buttons" type="Container" parent="hud"]
 
@@ -333,8 +348,8 @@ margin/bottom = 165.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 14 )
-textures/pressed = ExtResource( 15 )
+textures/normal = ExtResource( 15 )
+textures/pressed = ExtResource( 16 )
 params/resize_mode = 0
 params/stretch_mode = 0
 script/script = SubResource( 4 )
@@ -352,8 +367,8 @@ margin/bottom = 170.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 16 )
-textures/pressed = ExtResource( 17 )
+textures/normal = ExtResource( 17 )
+textures/pressed = ExtResource( 18 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
@@ -370,8 +385,8 @@ margin/bottom = 170.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 18 )
-textures/pressed = ExtResource( 19 )
+textures/normal = ExtResource( 19 )
+textures/pressed = ExtResource( 20 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
@@ -388,8 +403,8 @@ margin/bottom = 170.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 20 )
-textures/pressed = ExtResource( 21 )
+textures/normal = ExtResource( 21 )
+textures/pressed = ExtResource( 22 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
@@ -397,26 +412,7 @@ params/stretch_mode = 0
 
 transform/pos = Vector2( 540, 210 )
 z/z = -1
-texture = ExtResource( 22 )
-
-[node name="input_handler" type="Control" parent="."]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 453.0
-margin/right = 1080.0
-margin/bottom = 1580.0
-script/script = ExtResource( 23 )
-
-[node name="tween" type="Tween" parent="."]
-
-playback/process_mode = 1
-playback/active = false
-playback/repeat = false
-playback/speed = 1.0
+texture = ExtResource( 23 )
 
 [node name="popups" type="CanvasLayer" parent="."]
 
@@ -441,6 +437,7 @@ centered = false
 
 [node name="transition" type="AnimationPlayer" parent="."]
 
+process/pause_mode = 2
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")

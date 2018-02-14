@@ -15,7 +15,7 @@
 [sub_resource type="Animation" id=1]
 
 resource/name = "close"
-length = 0.1
+length = 0.15
 loop = false
 step = 0.01
 tracks/0/type = "value"
@@ -23,7 +23,7 @@ tracks/0/path = NodePath("window:visibility/opacity")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = {
-"times": FloatArray( 0, 0.1 ),
+"times": FloatArray( 0, 0.15 ),
 "transitions": FloatArray( 1, 1 ),
 "update": 0,
 "values": [ 1.0, 0.0 ]
@@ -40,7 +40,7 @@ tracks/0/path = NodePath("window:transform/scale")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = {
-"times": FloatArray( 0, 0.11, 0.12 ),
+"times": FloatArray( 0, 0.1, 0.12 ),
 "transitions": FloatArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0.1, 0.1 ), Vector2( 0.85, 0.85 ), Vector2( 0.75, 0.75 ) ]
@@ -78,10 +78,9 @@ func _on_switch_toggled(b):
 
 script/source = "extends TextureButton
 
+
 func _on_exit_button_pressed():
-	g.play_audio(\"click\")
-	g.save_game()
-	get_tree().quit()
+	g.open_popup(\"exit_confirmation\")
 "
 
 [sub_resource type="GDScript" id=6]
@@ -89,8 +88,7 @@ func _on_exit_button_pressed():
 script/source = "extends TextureButton
 
 func _on_close_button_pressed():
-	g.play_audio(\"click\")
-	get_parent().get_parent().close()
+	g.close_popup()
 "
 
 [node name="settings" type="Node2D"]
@@ -98,22 +96,6 @@ func _on_close_button_pressed():
 process/pause_mode = 2
 z/z = 1
 script/script = ExtResource( 1 )
-
-[node name="empty_space" type="Button" parent="."]
-
-visibility/opacity = 0.0
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = -540.0
-margin/top = -2400.0
-margin/right = 540.0
-margin/bottom = 2400.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-flat = false
 
 [node name="animation" type="AnimationPlayer" parent="."]
 
@@ -298,10 +280,6 @@ textures/pressed = ExtResource( 11 )
 params/resize_mode = 0
 params/stretch_mode = 0
 script/script = SubResource( 6 )
-
-[connection signal="enter_tree" from="." to="." method="_on_settings_enter_tree"]
-
-[connection signal="pressed" from="empty_space" to="." method="_on_empty_space_pressed"]
 
 [connection signal="finished" from="animation" to="." method="_on_animation_finished"]
 
