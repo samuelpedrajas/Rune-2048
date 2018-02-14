@@ -23,7 +23,7 @@ func update_state():
 		set_opacity(1)
 	# if it's close enough and flagged as merge -> merge it
 	if token_to_merge_with:
-		token_to_merge_with._increase_value()
+		token_to_merge_with.increase_value()
 		token_to_merge_with = null
 		tween.remove(self, 'set_pos')
 		hide()
@@ -49,7 +49,7 @@ func setup(pos, t):
 	set_pos(_get_world_pos(pos))
 	_spawn_animation()
 
-func _increase_value():
+func increase_value():
 	level += 1
 	g.handle_merge(level)
 	_set_content()

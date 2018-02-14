@@ -4,7 +4,7 @@ var matrix = {}
 
 # first positions in each direction line
 var direction_pivots = {}
-var current_board
+var board
 var input_handler
 var tween
 
@@ -15,15 +15,19 @@ func _ready():
 	g.current_window = "main"
 	get_tree().set_auto_accept_quit(false)
 	input_handler = get_node("input_handler")
-	input_handler.connect("user_input", self, "move")
 	tween = get_node("tween")
+	board = get_node("board")
 
-func is_valid_pos(p):
+	input_handler.connect("user_input", self, "move")
+
+	prepare_board()
+
+func _is_valid_pos(p):
 	# check if the position is inside the board
-	return p in current_board.get_used_cells()
+	return p in board.get_used_cells()
 
-func check_moves_available():
-	var used_cells = current_board.get_used_cells()
+func _check_moves_available():
+	var used_cells = board.get_used_cells()
 
 	if matrix.keys().size() < used_cells.size():
 		return true
@@ -37,7 +41,7 @@ func check_moves_available():
 
 func _set_direction_pivots():
 	# get all used cells in the current board
-	var used_cells = current_board.get_used_cells()
+	var used_cells = board.get_used_cells()
 
 	# for each used cell, if it has no previous cell but it has a next one
 	# for a given direction, then it is a pivot for that direction
@@ -53,31 +57,23 @@ func _set_direction_pivots():
 func _reset_board():
 	# remove all tokens from the tween
 	tween.remove_all()
-	# free current board
-	current_board.queue_free()
+	# free board
+	board.queue_free()
 	# clear direction pivots since they'll be different between boards
 	direction_pivots.clear()
 	# clear the matrix
 	matrix.clear()
 
-func prepare_board(board):
-	g.max_current = 0
+func prepare_board():
+	g.current_max = 0
 	g.current_score = 0
-	# get the packed scene
-	var board_packed_scene = load(board)
-	# if we had a previous board, reset it
-	if current_board:
-		_reset_board()
-
-	current_board = board_packed_scene.instance()  # create a new board
-	add_child(current_board)
 	_set_direction_pivots()  # set its direction pivots
 	_spawn_token()
 
 func _get_empty_position():
 	var available_positions = []
 	# for each cell used in the board
-	for cell in current_board.get_used_cells():
+	for cell in board.get_used_cells():
 		# if there is no token in it, add it to available positions
 		if !matrix.has(cell):
 			available_positions.append(cell)
@@ -94,7 +90,7 @@ func _spawn_token():
 		return
 
 	var t = token.instance()
-	current_board.add_child(t)  # t.setup() needs access to the board, so add it before
+	board.add_child(t)  # t.setup() needs access to the board, so add it before
 	t.setup(pos, tween)
 	matrix[pos] = t
 
@@ -102,11 +98,11 @@ func _handle_game_status():
 	for token in get_tree().get_nodes_in_group("token"):
 		token.update_state()
 	g.save_game()
-	if g.max_current == g.current_goal:
+	if g.current_max == cfg.GOAL:
 		g.win()
 		return
 	_spawn_token()
-	if not check_moves_available():
+	if not _check_moves_available():
 		g.game_over()
 	input_handler.blocked = false
 
@@ -161,7 +157,7 @@ func _move_line(position, direction):
 		line_changes.merge = line_changes.merge or changes.merge
 		line_changes.last_token = current_token
 		line_changes.last_valid_position = token_destination
-	elif !is_valid_pos(position):
+	elif !_is_valid_pos(position):
 		line_changes.last_valid_position = position - direction
 	else:
 		return _move_line(position + direction, direction)
