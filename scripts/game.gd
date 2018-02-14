@@ -24,7 +24,75 @@ signal current_score_changed
 onready var token = preload("res://scenes/token.tscn")
 
 
-func move(direction):
+func restart_game():
+	# here the screen is already black
+	self.current_score = 0
+	current_max = 0
+	# remove all tokens from the tween
+	tween.remove_all()
+	# clear the matrix
+	matrix.clear()
+	# remove all tokens one by one
+	for token in get_tree().get_nodes_in_group("token"):
+		token.hide()
+		token.queue_free()
+	_spawn_token()
+	input_handler.blocked = false
+
+
+func _ready():
+	# prevent quitting using back button
+	g.current_window = "main"
+	get_tree().set_auto_accept_quit(false)
+
+	# get some child nodes
+	input_handler = get_node("input_handler")
+	tween = get_node("tween")
+	board = get_node("board")
+
+	# the input handler will parse the input and send it to move function
+	input_handler.connect("user_input", self, "_move")
+
+	# only needed once
+	_set_direction_pivots()
+
+	_spawn_token()
+	input_handler.blocked = false
+
+
+func _set_direction_pivots():
+	# get all used cells in the current board
+	var used_cells = board.get_used_cells()
+
+	# for each used cell, if it has no previous cell but it has a next one
+	# for a given direction, then it is a pivot for that direction
+	for cell_pos in used_cells:
+		for direction in cfg.DIRECTIONS:
+			var next_pos = (cell_pos + direction)
+			var prev_pos = (cell_pos - direction)
+			if next_pos in used_cells and !(prev_pos in used_cells):
+				if !direction_pivots.has(direction):
+					direction_pivots[direction] = []
+				direction_pivots[direction].append(cell_pos)
+
+
+### WIN / LOSE ###
+
+func win():
+	print("Win")
+	input_handler.blocked = true
+	g.transition.restart_game()
+
+
+func game_over():
+	print("Game over")
+	input_handler.blocked = true
+	g.transition.restart_game()
+
+
+### GAME MECHANICS ###
+
+func _move(direction):
 	# information about the events in the board
 	var board_changed = {
 		"movement": false,  # did the tokens moved?
@@ -49,117 +117,6 @@ func move(direction):
 		tween.interpolate_callback(self, tween.get_runtime(), "_handle_game_status")
 
 
-func _ready():
-	# prevent quitting using back button
-	g.current_window = "main"
-	get_tree().set_auto_accept_quit(false)
-
-	# get some child nodes
-	input_handler = get_node("input_handler")
-	tween = get_node("tween")
-	board = get_node("board")
-
-	# the input handler will parse the input and send it to move function
-	input_handler.connect("user_input", self, "move")
-
-	# only needed once
-	_set_direction_pivots()
-	_spawn_token()
-
-
-func _set_direction_pivots():
-	# get all used cells in the current board
-	var used_cells = board.get_used_cells()
-
-	# for each used cell, if it has no previous cell but it has a next one
-	# for a given direction, then it is a pivot for that direction
-	for cell_pos in used_cells:
-		for direction in cfg.DIRECTIONS:
-			var next_pos = (cell_pos + direction)
-			var prev_pos = (cell_pos - direction)
-			if next_pos in used_cells and !(prev_pos in used_cells):
-				if !direction_pivots.has(direction):
-					direction_pivots[direction] = []
-				direction_pivots[direction].append(cell_pos)
-
-
-func _is_valid_pos(p):
-	# check if the position is inside the board
-	return p in board.get_used_cells()
-
-
-func _spawn_token():
-	var pos = _get_empty_position()
-	if pos == null:
-		return
-
-	var t = token.instance()
-	board.add_child(t)  # t.setup() needs access to the board, so add it before
-	t.setup(pos, tween)
-	matrix[pos] = t
-
-
-func _check_moves_available():
-	var used_cells = board.get_used_cells()
-
-	if matrix.keys().size() < used_cells.size():
-		return true
-
-	for current_cell in used_cells:
-		for d in cfg.DIRECTIONS:
-			var v = current_cell - d
-			if matrix.has(v) and matrix[v].level == matrix[current_cell].level:
-				return true
-	return false
-
-
-func _reset_board():
-	# remove all tokens from the tween
-	tween.remove_all()
-	# free board
-	board.queue_free()
-	# clear direction pivots since they'll be different between boards
-	direction_pivots.clear()
-	# clear the matrix
-	matrix.clear()
-
-
-func _get_empty_position():
-	var available_positions = []
-	# for each cell used in the board
-	for cell in board.get_used_cells():
-		# if there is no token in it, add it to available positions
-		if !matrix.has(cell):
-			available_positions.append(cell)
-
-	if available_positions.empty():
-		return null
-
-	randomize()  # otherwise it generates the same numbers
-	return available_positions[randi() % available_positions.size()]
-
-
-func _handle_game_status():
-	for token in get_tree().get_nodes_in_group("token"):
-		if token.is_merging():
-			_handle_merge(token.level)
-		token.update_state()
-	g.save_game()
-	if current_max == cfg.GOAL:
-		g.win()
-		return
-	_spawn_token()
-	if not _check_moves_available():
-		g.game_over()
-	input_handler.blocked = false
-
-
-func _handle_merge(v):
-	self.current_score += pow(2, v + 1)
-	self.highest_score = highest_score if highest_score > current_score else current_score
-	self.current_max = v if v > current_max else current_max
-
-
 func _move_line(position, direction):
 	var line_changes = {
 		"movement": false,
@@ -167,6 +124,7 @@ func _move_line(position, direction):
 		"last_token": null,
 		"last_valid_position": null
 	}
+
 	# 3 cases: current position has a token, current position is not valid and current position is
 	# valid but it doesn't have a token
 	if matrix.has(position):
@@ -174,14 +132,17 @@ func _move_line(position, direction):
 		var changes = _move_line(position + direction, direction)
 		var last_token = changes.last_token
 		var token_destination = changes.last_valid_position
+
 		# conditions for positioning and merging
 		if last_token and (last_token.token_to_merge_with or last_token.level != current_token.level):
 			token_destination -= direction
 		elif last_token and !last_token.token_to_merge_with and last_token.level == current_token.level:
 			line_changes.merge = true
 			current_token.token_to_merge_with = last_token
+
 		# move current token after moving the ones after it
 		_move_token(current_token, token_destination)
+
 		# update line_changes information for the previous position in the recursion
 		line_changes.movement = position != token_destination
 		line_changes.merge = line_changes.merge or changes.merge
@@ -205,6 +166,77 @@ func _move_token(token, destination):
 	
 		token.current_pos = destination  # update the current position
 		token.define_tweening()
+
+
+func _is_valid_pos(p):
+	# check if the position is inside the board
+	return p in board.get_used_cells()
+
+
+func _handle_game_status():
+	# update score and update token state
+	for token in get_tree().get_nodes_in_group("token"):
+		if token.is_merging():
+			_handle_merge(token.level)
+		token.update_state()
+
+	g.save_game()
+
+	# have you won?
+	if current_max == cfg.GOAL:
+		win()
+	else:
+		_spawn_token()
+		if not _check_moves_available():
+			game_over()
+		input_handler.blocked = false
+
+
+func _handle_merge(v):
+	self.current_score += pow(2, v)
+	self.highest_score = highest_score if highest_score > current_score else current_score
+	self.current_max = v if v > current_max else current_max
+
+
+func _spawn_token():
+	var pos = _get_empty_position()
+	if pos == null:
+		return
+
+	var t = token.instance()
+	board.add_child(t)  # t.setup() needs access to the board, so add it before
+	t.setup(pos, tween)
+	matrix[pos] = t
+
+
+func _get_empty_position():
+	var available_positions = []
+
+	# for each cell used in the board
+	for cell in board.get_used_cells():
+		# if there is no token in it, add it to available positions
+		if !matrix.has(cell):
+			available_positions.append(cell)
+
+	if available_positions.empty():
+		return null
+
+	randomize()  # otherwise it generates the same numbers
+	return available_positions[randi() % available_positions.size()]
+
+
+func _check_moves_available():
+	var used_cells = board.get_used_cells()
+
+	if matrix.keys().size() < used_cells.size():
+		return true
+
+	for current_cell in used_cells:
+		for d in cfg.DIRECTIONS:
+			var v = current_cell - d
+			if matrix.has(v) and matrix[v].level == matrix[current_cell].level:
+				return true
+	return false
 
 
 func _notification(what):

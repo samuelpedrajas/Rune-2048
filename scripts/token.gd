@@ -8,7 +8,7 @@ var tween
 
 
 func setup(pos, t):
-	level = 0
+	level = 1
 	tween = t
 	current_pos = pos
 	_set_content()
@@ -34,10 +34,11 @@ func define_tweening():
 
 
 func update_state():
+	# set pos just in case the tweening failed
 	set_pos(_get_world_pos(current_pos))
-	if get_opacity() < 1:  # must check, otherwise opacity will be set more than once
-		set_opacity(1)
-	# if it's close enough and flagged as merge -> merge it
+	set_opacity(1)
+
+	# if it's flagged as merge -> merge it
 	if token_to_merge_with:
 		token_to_merge_with.increase_value()
 		token_to_merge_with = null
@@ -59,7 +60,7 @@ func _set_content():
 	var level_label = get_node("token_sprite/level")
 	var texture = get_parent().get_token_content(level)
 	token_sprite.set_texture(texture)
-	level_label.set_text(str(level + 1))
+	level_label.set_text(str(level))
 
 
 func _spawn_animation():

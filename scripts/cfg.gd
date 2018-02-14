@@ -1,6 +1,6 @@
 extends Node
 
-const GOAL = 8
+const GOAL = 2
 
 # Directions available for input
 const DIRECTIONS = [

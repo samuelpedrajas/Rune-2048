@@ -15,7 +15,7 @@ var TOKEN_SPRITES = [
 
 
 func get_token_content(level):
-	return TOKEN_SPRITES[level]
+	return TOKEN_SPRITES[level - 1]
 
 
 func get_used_cells():

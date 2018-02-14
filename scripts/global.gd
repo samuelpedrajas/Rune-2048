@@ -13,12 +13,15 @@ var sound_node
 var savegame = File.new()
 
 var game
+var transition
 
 
 func _ready():
 	game = get_tree().get_root().get_node("game")
 	music_node = game.get_node("music")
 	sound_node = game.get_node("samples")
+	transition = game.get_node("transition")
+
 	if not load_game():
 		save_game()
 
@@ -49,14 +52,6 @@ func load_game():
 	self.music_on = game_status['music_on']
 	self.sound_on = game_status['sound_on']
 	savegame.close()
-
-
-func win():
-	print("Win")
-
-
-func game_over():
-	print("Game over")
 
 
 func _set_music_on(v):

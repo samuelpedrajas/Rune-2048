@@ -4,7 +4,7 @@ var tap_start_position
 
 signal user_input
 
-var blocked = false
+var blocked = true
 
 func _check_move(input_vector):
 	if input_vector.length() > cfg.MOTION_DISTANCE:
@@ -25,5 +25,7 @@ func _input_event(event):
 		tap_start_position = event.pos
 	elif event.is_action_released("click"):
 		# if released, erase de position and check if we can make a move
-		_check_move(event.pos - tap_start_position)
-		tap_start_position = null
+		var got_the_info = tap_start_position != null and event.pos != null
+		if got_the_info:
+			_check_move(event.pos - tap_start_position)
+			tap_start_position = null
