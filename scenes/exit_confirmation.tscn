@@ -1,12 +1,14 @@
-[gd_scene load_steps=10 format=1]
+[gd_scene load_steps=14 format=1]
 
 [ext_resource path="res://scripts/exit_confirmation.gd" type="Script" id=1]
 [ext_resource path="res://images/popup.png" type="Texture" id=2]
 [ext_resource path="res://fonts/message.fnt" type="BitmapFont" id=3]
 [ext_resource path="res://images/ok_button.png" type="Texture" id=4]
-[ext_resource path="res://images/cancel_button.png" type="Texture" id=5]
-[ext_resource path="res://images/window_header.png" type="Texture" id=6]
-[ext_resource path="res://fonts/polypty.fnt" type="BitmapFont" id=7]
+[ext_resource path="res://images/ok_button_pressed.png" type="Texture" id=5]
+[ext_resource path="res://images/cancel_button.png" type="Texture" id=6]
+[ext_resource path="res://images/cancel_button_pressed.png" type="Texture" id=7]
+[ext_resource path="res://images/window_header.png" type="Texture" id=8]
+[ext_resource path="res://fonts/polypty.fnt" type="BitmapFont" id=9]
 
 [sub_resource type="Animation" id=3]
 
@@ -51,6 +53,24 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector2( 0.1, 0.1 ), Vector2( 0.85, 0.85 ), Vector2( 0.75, 0.75 ) ]
 }
+
+[sub_resource type="GDScript" id=6]
+
+script/source = "extends TextureButton
+
+
+func _on_ok_button_pressed():
+	get_tree().quit()
+"
+
+[sub_resource type="GDScript" id=5]
+
+script/source = "extends TextureButton
+
+
+func _on_cancel_button_pressed():
+	g.close_popup()
+"
 
 [node name="exit_confirmation" type="Node2D"]
 
@@ -109,8 +129,10 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 textures/normal = ExtResource( 4 )
+textures/pressed = ExtResource( 5 )
 params/resize_mode = 0
 params/stretch_mode = 0
+script/script = SubResource( 6 )
 
 [node name="cancel_button" type="TextureButton" parent="window"]
 
@@ -125,15 +147,18 @@ margin/bottom = 240.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 5 )
+textures/normal = ExtResource( 6 )
+textures/pressed = ExtResource( 7 )
 params/resize_mode = 0
 params/stretch_mode = 0
+script/script = SubResource( 5 )
 
 [node name="header" type="Sprite" parent="window"]
 
+visibility/visible = false
 transform/pos = Vector2( 0, -548.354 )
 transform/scale = Vector2( 0.75, 0.75 )
-texture = ExtResource( 6 )
+texture = ExtResource( 8 )
 
 [node name="title" type="Label" parent="window/header"]
 
@@ -145,12 +170,16 @@ margin/left = -128.0
 margin/top = -41.0
 margin/right = 140.0
 margin/bottom = 65.0
-custom_fonts/font = ExtResource( 7 )
+custom_fonts/font = ExtResource( 9 )
 text = "EXIT"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
 [connection signal="finished" from="animation" to="." method="_on_animation_finished"]
+
+[connection signal="pressed" from="window/ok_button" to="window/ok_button" method="_on_ok_button_pressed"]
+
+[connection signal="pressed" from="window/cancel_button" to="window/cancel_button" method="_on_cancel_button_pressed"]
 
 
