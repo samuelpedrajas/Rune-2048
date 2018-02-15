@@ -11,7 +11,7 @@ tracks/0/path = NodePath("window:visibility/opacity")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = {
-"times": FloatArray( 0, 0.12 ),
+"times": FloatArray( 0, 0.07 ),
 "transitions": FloatArray( 1, 1 ),
 "update": 0,
 "values": [ 0.0, 1.0 ]
@@ -21,9 +21,9 @@ tracks/1/path = NodePath("window:transform/scale")
 tracks/1/interp = 1
 tracks/1/imported = false
 tracks/1/keys = {
-"times": FloatArray( 0, 0.1, 0.12 ),
+"times": FloatArray( 0, 0.08, 0.12 ),
 "transitions": FloatArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0.1, 0.1 ), Vector2( 0.85, 0.85 ), Vector2( 0.75, 0.75 ) ]
+"values": [ Vector2( 1e-05, 1e-05 ), Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
 
