@@ -101,6 +101,7 @@ func _set_sound_on(v):
 
 func _notification(what):
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+		play_audio("click")
 		if popup_stack.empty():
 			open_popup("exit_confirmation")
 		else:
