@@ -16,3 +16,4 @@ const MINIMUM_DISTANCE_TO_MOVE = 0.6 # Minimum distance from the direction vecto
 
 const SETTINGS_WINDOW_POS = Vector2(540, 1000)
 const EXIT_WINDOW_POS = Vector2(540, 850)
+const RESET_WINDOW_POS = Vector2(540, 850)

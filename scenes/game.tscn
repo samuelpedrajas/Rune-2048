@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=1]
+[gd_scene load_steps=33 format=1]
 
 [ext_resource path="res://scripts/game.gd" type="Script" id=1]
 [ext_resource path="res://audio/click.smp" type="Sample" id=2]
@@ -72,6 +72,15 @@ script/source = "extends TextureButton
 func _on_menu_pressed():
 	g.play_audio(\"click\")
 	g.open_popup(\"settings\")
+"
+
+[sub_resource type="GDScript" id=8]
+
+script/source = "extends TextureButton
+
+func _on_reset_pressed():
+	g.play_audio(\"click\")
+	g.open_popup(\"reset_confirmation\")
 "
 
 [sub_resource type="Animation" id=5]
@@ -179,7 +188,6 @@ texture = ExtResource( 5 )
 
 [node name="board" type="Node2D" parent="."]
 
-editor/display_folded = true
 transform/pos = Vector2( 30, 480 )
 script/script = ExtResource( 6 )
 
@@ -355,7 +363,7 @@ params/resize_mode = 0
 params/stretch_mode = 0
 script/script = SubResource( 4 )
 
-[node name="restart" type="TextureButton" parent="hud/lower_buttons"]
+[node name="reset" type="TextureButton" parent="hud/lower_buttons"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -372,6 +380,7 @@ textures/normal = ExtResource( 17 )
 textures/pressed = ExtResource( 18 )
 params/resize_mode = 0
 params/stretch_mode = 0
+script/script = SubResource( 8 )
 
 [node name="excuses" type="TextureButton" parent="hud/lower_buttons"]
 
@@ -450,6 +459,8 @@ autoplay = ""
 script/script = SubResource( 7 )
 
 [connection signal="pressed" from="hud/lower_buttons/menu" to="hud/lower_buttons/menu" method="_on_menu_pressed"]
+
+[connection signal="pressed" from="hud/lower_buttons/reset" to="hud/lower_buttons/reset" method="_on_reset_pressed"]
 
 [connection signal="animation_started" from="transition" to="transition" method="_on_transition_animation_started"]
 

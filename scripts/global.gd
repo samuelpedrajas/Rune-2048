@@ -5,7 +5,8 @@ extends Node
 var popup_stack = []
 onready var popup_scene_dict = {
 	"settings": preload("res://scenes/settings.tscn"),
-	"exit_confirmation": preload("res://scenes/exit_confirmation.tscn")
+	"exit_confirmation": preload("res://scenes/exit_confirmation.tscn"),
+	"reset_confirmation": preload("res://scenes/reset_confirmation.tscn")
 }
 
 # SETTINGS
