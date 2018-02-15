@@ -22,6 +22,13 @@ signal current_score_changed
 
 # for instancing tokens
 onready var token = preload("res://scenes/token.tscn")
+onready var broccoli = preload("res://scenes/broccoli_selection.tscn")
+
+
+func start_broccoli_selection():
+	var scene = broccoli.instance()
+	get_node("board_layer").add_child(scene)
+	return scene
 
 
 func restart_game():

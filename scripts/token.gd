@@ -1,6 +1,7 @@
 extends Node2D
 
 
+onready var animation = get_node("animation")
 var level
 var token_to_merge_with = null
 var current_pos
@@ -13,7 +14,16 @@ func setup(pos, t):
 	current_pos = pos
 	_set_content()
 	set_pos(_get_world_pos(pos))
-	get_node("animation").play("spawn")
+	animation.play("spawn")
+
+
+func set_selectable_state():
+	animation.play("broccoli_selection")
+
+
+func unset_selectable_state():
+	animation.stop()
+	get_node("glow").hide()
 
 
 func is_merging():

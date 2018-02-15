@@ -8,6 +8,7 @@ onready var popup_scene_dict = {
 	"exit_confirmation": preload("res://scenes/exit_confirmation.tscn"),
 	"reset_confirmation": preload("res://scenes/reset_confirmation.tscn")
 }
+var current_event
 
 # SETTINGS
 var music_on = true setget _set_music_on
@@ -32,6 +33,11 @@ func _ready():
 
 	if not load_game():
 		save_game()
+
+
+func start_event(name):
+	if name == "broccoli":
+		current_event = game.start_broccoli_selection()
 
 
 func open_popup(name):
@@ -103,7 +109,10 @@ func _set_sound_on(v):
 func _notification(what):
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
 		play_audio("click")
-		if popup_stack.empty():
-			open_popup("exit_confirmation")
-		else:
+		if not popup_stack.empty():
 			close_popup()
+		elif current_event:
+			current_event.close()
+			current_event = null
+		else:
+			open_popup("exit_confirmation")

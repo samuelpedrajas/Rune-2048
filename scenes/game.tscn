@@ -88,7 +88,8 @@ func _on_reset_pressed():
 script/source = "extends TextureButton
 
 func _on_broccoli_pressed():
-	pass
+	g.play_audio(\"click\")
+	g.start_event(\"broccoli\")
 "
 
 [sub_resource type="Animation" id=5]
@@ -202,12 +203,14 @@ script/script = ExtResource( 5 )
 
 [node name="hud_layer" type="CanvasLayer" parent="."]
 
-layer = 0
+layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
 
 [node name="hud" type="Node2D" parent="hud_layer"]
+
+editor/display_folded = true
 
 [node name="background" type="Sprite" parent="hud_layer/hud"]
 
@@ -216,6 +219,7 @@ texture = ExtResource( 6 )
 
 [node name="header" type="Container" parent="hud_layer/hud"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -313,7 +317,6 @@ texture = ExtResource( 11 )
 
 [node name="lower_buttons" type="Container" parent="hud_layer/hud"]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -406,7 +409,7 @@ script/script = SubResource( 9 )
 [node name="board_layer" type="CanvasLayer" parent="."]
 
 editor/display_folded = true
-layer = 1
+layer = 2
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
@@ -444,14 +447,14 @@ tile_data = IntArray( 0, 0, 1, 0, 2, 0, 65536, 0, 65537, 0, 65538, 0, 131072, 0,
 
 [node name="popup_layer" type="CanvasLayer" parent="."]
 
-layer = 2
+layer = 3
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
 
 [node name="transition_layer" type="CanvasLayer" parent="."]
 
-layer = 3
+layer = 4
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )

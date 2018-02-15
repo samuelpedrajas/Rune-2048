@@ -17,7 +17,9 @@ func _ready():
 
 func _on_animation_finished():
 	if is_closing:
+		for token in get_tree().get_nodes_in_group("token"):
+			token.unset_selectable_state()
 		queue_free()
 	else:
 		for token in get_tree().get_nodes_in_group("token"):
-			token.get_node("animation").play("broccoli_selection")
+			token.set_selectable_state()
