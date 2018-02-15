@@ -1,28 +1,28 @@
-[gd_scene load_steps=33 format=1]
+[gd_scene load_steps=34 format=1]
 
 [ext_resource path="res://scripts/game.gd" type="Script" id=1]
 [ext_resource path="res://audio/click.smp" type="Sample" id=2]
 [ext_resource path="res://audio/merge.smp" type="Sample" id=3]
 [ext_resource path="res://audio/arcade_game.ogg" type="AudioStream" id=4]
-[ext_resource path="res://images/background.png" type="Texture" id=5]
-[ext_resource path="res://scripts/board.gd" type="Script" id=6]
-[ext_resource path="res://images/board_bg.png" type="Texture" id=7]
-[ext_resource path="res://tileset/tileset.tres" type="TileSet" id=8]
-[ext_resource path="res://scripts/input_handler.gd" type="Script" id=9]
-[ext_resource path="res://images/top_panel.png" type="Texture" id=10]
-[ext_resource path="res://images/time_container.png" type="Texture" id=11]
-[ext_resource path="res://fonts/token_label.fnt" type="BitmapFont" id=12]
-[ext_resource path="res://images/score_post.png" type="Texture" id=13]
-[ext_resource path="res://images/max_score_post.png" type="Texture" id=14]
-[ext_resource path="res://images/menu_button.png" type="Texture" id=15]
-[ext_resource path="res://images/menu_button_pressed.png" type="Texture" id=16]
-[ext_resource path="res://images/restart_button.png" type="Texture" id=17]
-[ext_resource path="res://images/restart_button_pressed.png" type="Texture" id=18]
-[ext_resource path="res://images/book.png" type="Texture" id=19]
-[ext_resource path="res://images/book_pressed.png" type="Texture" id=20]
-[ext_resource path="res://images/broccoli.png" type="Texture" id=21]
-[ext_resource path="res://images/broccoli_pressed.png" type="Texture" id=22]
-[ext_resource path="res://images/bottom_border.png" type="Texture" id=23]
+[ext_resource path="res://scripts/input_handler.gd" type="Script" id=5]
+[ext_resource path="res://images/background.png" type="Texture" id=6]
+[ext_resource path="res://images/top_panel.png" type="Texture" id=7]
+[ext_resource path="res://images/time_container.png" type="Texture" id=8]
+[ext_resource path="res://fonts/token_label.fnt" type="BitmapFont" id=9]
+[ext_resource path="res://images/score_post.png" type="Texture" id=10]
+[ext_resource path="res://images/max_score_post.png" type="Texture" id=11]
+[ext_resource path="res://images/bottom_border.png" type="Texture" id=12]
+[ext_resource path="res://images/menu_button.png" type="Texture" id=13]
+[ext_resource path="res://images/menu_button_pressed.png" type="Texture" id=14]
+[ext_resource path="res://images/restart_button.png" type="Texture" id=15]
+[ext_resource path="res://images/restart_button_pressed.png" type="Texture" id=16]
+[ext_resource path="res://images/book.png" type="Texture" id=17]
+[ext_resource path="res://images/book_pressed.png" type="Texture" id=18]
+[ext_resource path="res://images/broccoli.png" type="Texture" id=19]
+[ext_resource path="res://images/broccoli_pressed.png" type="Texture" id=20]
+[ext_resource path="res://scripts/board.gd" type="Script" id=21]
+[ext_resource path="res://images/board_bg.png" type="Texture" id=22]
+[ext_resource path="res://tileset/tileset.tres" type="TileSet" id=23]
 [ext_resource path="res://images/black_screen.png" type="Texture" id=24]
 
 [sub_resource type="SampleLibrary" id=1]
@@ -81,6 +81,14 @@ script/source = "extends TextureButton
 func _on_reset_pressed():
 	g.play_audio(\"click\")
 	g.open_popup(\"reset_confirmation\")
+"
+
+[sub_resource type="GDScript" id=9]
+
+script/source = "extends TextureButton
+
+func _on_broccoli_pressed():
+	pass
 "
 
 [sub_resource type="Animation" id=5]
@@ -180,28 +188,246 @@ playback/active = false
 playback/repeat = false
 playback/speed = 1.0
 
-[node name="background" type="Sprite" parent="."]
+[node name="input_handler" type="Control" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 453.0
+margin/right = 1080.0
+margin/bottom = 1580.0
+script/script = ExtResource( 5 )
+
+[node name="hud_layer" type="CanvasLayer" parent="."]
+
+layer = 0
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+
+[node name="hud" type="Node2D" parent="hud_layer"]
+
+[node name="background" type="Sprite" parent="hud_layer/hud"]
 
 transform/pos = Vector2( 540, 960 )
-z/z = -2
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 
-[node name="board" type="Node2D" parent="."]
+[node name="header" type="Container" parent="hud_layer/hud"]
 
-transform/pos = Vector2( 30, 480 )
-script/script = ExtResource( 6 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 1080.0
+margin/bottom = 225.0
 
-[node name="background" type="Sprite" parent="board"]
+[node name="top_border" type="Sprite" parent="hud_layer/hud/header"]
+
+transform/pos = Vector2( 540, 125 )
+texture = ExtResource( 7 )
+
+[node name="current_score" type="Container" parent="hud_layer/hud/header"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 377.0
+margin/top = 161.0
+margin/right = 417.0
+margin/bottom = 201.0
+
+[node name="container_sprite" type="Sprite" parent="hud_layer/hud/header/current_score"]
+
+transform/pos = Vector2( 12, -2 )
+texture = ExtResource( 8 )
+
+[node name="current_score" type="Label" parent="hud_layer/hud/header/current_score/container_sprite"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -82.0
+margin/top = -38.0
+margin/right = 118.0
+margin/bottom = 32.0
+custom_fonts/font = ExtResource( 9 )
+text = "0"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+script/script = SubResource( 2 )
+
+[node name="post_sprite" type="Sprite" parent="hud_layer/hud/header/current_score"]
+
+transform/pos = Vector2( -174.325, -4.09686 )
+texture = ExtResource( 10 )
+
+[node name="max_score" type="Container" parent="hud_layer/hud/header"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 838.0
+margin/top = 163.0
+margin/right = 878.0
+margin/bottom = 203.0
+
+[node name="container_sprite" type="Sprite" parent="hud_layer/hud/header/max_score"]
+
+editor/display_folded = true
+transform/pos = Vector2( 12, -2 )
+texture = ExtResource( 8 )
+
+[node name="max_score" type="Label" parent="hud_layer/hud/header/max_score/container_sprite"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -82.0
+margin/top = -38.0
+margin/right = 118.0
+margin/bottom = 32.0
+custom_fonts/font = ExtResource( 9 )
+text = "0"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+script/script = SubResource( 3 )
+
+[node name="post_sprite" type="Sprite" parent="hud_layer/hud/header/max_score"]
+
+transform/pos = Vector2( -147.325, -4.09686 )
+texture = ExtResource( 11 )
+
+[node name="lower_buttons" type="Container" parent="hud_layer/hud"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 1594.0
+margin/right = 1080.0
+margin/bottom = 1764.0
+
+[node name="bottom_border" type="Sprite" parent="hud_layer/hud/lower_buttons"]
+
+transform/pos = Vector2( 540, 210 )
+texture = ExtResource( 12 )
+
+[node name="menu" type="TextureButton" parent="hud_layer/hud/lower_buttons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 60.0
+margin/top = 0.0
+margin/right = 230.0
+margin/bottom = 165.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 13 )
+textures/pressed = ExtResource( 14 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = SubResource( 4 )
+
+[node name="reset" type="TextureButton" parent="hud_layer/hud/lower_buttons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 290.0
+margin/top = 0.0
+margin/right = 460.0
+margin/bottom = 170.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 15 )
+textures/pressed = ExtResource( 16 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = SubResource( 8 )
+
+[node name="excuses" type="TextureButton" parent="hud_layer/hud/lower_buttons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 620.0
+margin/top = 0.0
+margin/right = 790.0
+margin/bottom = 170.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 17 )
+textures/pressed = ExtResource( 18 )
+params/resize_mode = 0
+params/stretch_mode = 0
+
+[node name="broccoli" type="TextureButton" parent="hud_layer/hud/lower_buttons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 850.0
+margin/top = 0.0
+margin/right = 1020.0
+margin/bottom = 170.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 19 )
+textures/pressed = ExtResource( 20 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = SubResource( 9 )
+
+[node name="board_layer" type="CanvasLayer" parent="."]
+
+editor/display_folded = true
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+
+[node name="board" type="Node2D" parent="board_layer"]
+
+editor/display_folded = true
+transform/pos = Vector2( 30, 473.135 )
+script/script = ExtResource( 21 )
+
+[node name="background" type="Sprite" parent="board_layer/board"]
 
 transform/scale = Vector2( 1, 0.9 )
-texture = ExtResource( 7 )
+texture = ExtResource( 22 )
 centered = false
 offset = Vector2( -30, -30 )
 
-[node name="tilemap" type="TileMap" parent="board"]
+[node name="tilemap" type="TileMap" parent="board_layer/board"]
 
 mode = 0
-tile_set = ExtResource( 8 )
+tile_set = ExtResource( 23 )
 cell/size = Vector2( 340, 340 )
 cell/quadrant_size = 16
 cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -216,215 +442,7 @@ collision/mask = 1
 occluder/light_mask = 1
 tile_data = IntArray( 0, 0, 1, 0, 2, 0, 65536, 0, 65537, 0, 65538, 0, 131072, 0, 131073, 0, 131074, 0 )
 
-[node name="input_handler" type="Control" parent="."]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 453.0
-margin/right = 1080.0
-margin/bottom = 1580.0
-script/script = ExtResource( 9 )
-
-[node name="hud" type="CanvasLayer" parent="."]
-
-layer = 1
-offset = Vector2( 0, 0 )
-rotation = 0.0
-scale = Vector2( 1, 1 )
-
-[node name="header" type="Container" parent="hud"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 1080.0
-margin/bottom = 225.0
-
-[node name="top_border" type="Sprite" parent="hud/header"]
-
-transform/pos = Vector2( 540, 125 )
-z/z = -1
-texture = ExtResource( 10 )
-
-[node name="current_score" type="Container" parent="hud/header"]
-
-editor/display_folded = true
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 377.0
-margin/top = 161.0
-margin/right = 417.0
-margin/bottom = 201.0
-
-[node name="container_sprite" type="Sprite" parent="hud/header/current_score"]
-
-transform/pos = Vector2( 12, -2 )
-texture = ExtResource( 11 )
-
-[node name="current_score" type="Label" parent="hud/header/current_score/container_sprite"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = -82.0
-margin/top = -38.0
-margin/right = 118.0
-margin/bottom = 32.0
-custom_fonts/font = ExtResource( 12 )
-text = "0"
-align = 2
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-script/script = SubResource( 2 )
-
-[node name="post_sprite" type="Sprite" parent="hud/header/current_score"]
-
-transform/pos = Vector2( -174.325, -4.09686 )
-texture = ExtResource( 13 )
-
-[node name="max_score" type="Container" parent="hud/header"]
-
-editor/display_folded = true
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 838.0
-margin/top = 163.0
-margin/right = 878.0
-margin/bottom = 203.0
-
-[node name="container_sprite" type="Sprite" parent="hud/header/max_score"]
-
-editor/display_folded = true
-transform/pos = Vector2( 12, -2 )
-texture = ExtResource( 11 )
-
-[node name="max_score" type="Label" parent="hud/header/max_score/container_sprite"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = -82.0
-margin/top = -38.0
-margin/right = 118.0
-margin/bottom = 32.0
-custom_fonts/font = ExtResource( 12 )
-text = "0"
-align = 2
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-script/script = SubResource( 3 )
-
-[node name="post_sprite" type="Sprite" parent="hud/header/max_score"]
-
-transform/pos = Vector2( -147.325, -4.09686 )
-texture = ExtResource( 14 )
-
-[node name="lower_buttons" type="Container" parent="hud"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 1594.0
-margin/right = 1080.0
-margin/bottom = 1764.0
-
-[node name="menu" type="TextureButton" parent="hud/lower_buttons"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 60.0
-margin/top = 0.0
-margin/right = 230.0
-margin/bottom = 165.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-textures/normal = ExtResource( 15 )
-textures/pressed = ExtResource( 16 )
-params/resize_mode = 0
-params/stretch_mode = 0
-script/script = SubResource( 4 )
-
-[node name="reset" type="TextureButton" parent="hud/lower_buttons"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 290.0
-margin/top = 0.0
-margin/right = 460.0
-margin/bottom = 170.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-textures/normal = ExtResource( 17 )
-textures/pressed = ExtResource( 18 )
-params/resize_mode = 0
-params/stretch_mode = 0
-script/script = SubResource( 8 )
-
-[node name="excuses" type="TextureButton" parent="hud/lower_buttons"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 620.0
-margin/top = 0.0
-margin/right = 790.0
-margin/bottom = 170.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-textures/normal = ExtResource( 19 )
-textures/pressed = ExtResource( 20 )
-params/resize_mode = 0
-params/stretch_mode = 0
-
-[node name="broccoli" type="TextureButton" parent="hud/lower_buttons"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 850.0
-margin/top = 0.0
-margin/right = 1020.0
-margin/bottom = 170.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-textures/normal = ExtResource( 21 )
-textures/pressed = ExtResource( 22 )
-params/resize_mode = 0
-params/stretch_mode = 0
-
-[node name="bottom_border" type="Sprite" parent="hud/lower_buttons"]
-
-transform/pos = Vector2( 540, 210 )
-z/z = -1
-texture = ExtResource( 23 )
-
-[node name="popups" type="CanvasLayer" parent="."]
+[node name="popup_layer" type="CanvasLayer" parent="."]
 
 layer = 2
 offset = Vector2( 0, 0 )
@@ -458,9 +476,11 @@ blend_times = [  ]
 autoplay = ""
 script/script = SubResource( 7 )
 
-[connection signal="pressed" from="hud/lower_buttons/menu" to="hud/lower_buttons/menu" method="_on_menu_pressed"]
+[connection signal="pressed" from="hud_layer/hud/lower_buttons/menu" to="hud_layer/hud/lower_buttons/menu" method="_on_menu_pressed"]
 
-[connection signal="pressed" from="hud/lower_buttons/reset" to="hud/lower_buttons/reset" method="_on_reset_pressed"]
+[connection signal="pressed" from="hud_layer/hud/lower_buttons/reset" to="hud_layer/hud/lower_buttons/reset" method="_on_reset_pressed"]
+
+[connection signal="pressed" from="hud_layer/hud/lower_buttons/broccoli" to="hud_layer/hud/lower_buttons/broccoli" method="_on_broccoli_pressed"]
 
 [connection signal="animation_started" from="transition" to="transition" method="_on_transition_animation_started"]
 

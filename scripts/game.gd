@@ -44,7 +44,7 @@ func _ready():
 	# get some child nodes
 	input_handler = get_node("input_handler")
 	tween = get_node("tween")
-	board = get_node("board")
+	board = get_node("board_layer/board")
 
 	# the input handler will parse the input and send it to move function
 	input_handler.connect("user_input", self, "_move")

@@ -43,7 +43,7 @@ func open_popup(name):
 
 		var popup = popup_scene_dict[name].instance()
 		popup.set_z(popup_stack.size())
-		g.game.get_node("popups").add_child(popup)
+		g.game.get_node("popup_layer").add_child(popup)
 		popup_stack.append(popup)
 
 
