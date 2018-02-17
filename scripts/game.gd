@@ -5,6 +5,9 @@ var current_max = 1
 var highest_score = 0 setget _set_highest_score
 var current_score = 0 setget _set_current_score
 
+# items
+var broccolis = 2
+
 # keep board state
 var matrix = {}
 
@@ -25,9 +28,25 @@ onready var token = preload("res://scenes/token.tscn")
 onready var broccoli = preload("res://scenes/broccoli_selection.tscn")
 
 
+func use_broccoli(token):
+	if broccolis > 0:
+		broccolis -= 1
+		matrix.erase(token.current_pos)
+		token.die()
+
+	if broccolis == 0 and g.current_event:
+		print("no more broccolis")
+		g.stop_event()
+
+	if matrix.empty():
+		var t = _spawn_token()
+		t.set_selectable_state()
+		t.get_node("broccoli_spawn").set_active(true)
+
+
 func start_broccoli_selection():
 	var scene = broccoli.instance()
-	get_node("board_layer").add_child(scene)
+	get_node("event_layer").add_child(scene)
 	return scene
 
 
@@ -206,6 +225,8 @@ func _spawn_token():
 	board.add_child(t)  # t.setup() needs access to the board, so add it before
 	t.setup(pos, tween)
 	matrix[pos] = t
+
+	return t
 
 
 func _get_empty_position():

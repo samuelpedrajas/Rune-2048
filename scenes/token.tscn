@@ -1,38 +1,14 @@
-[gd_scene load_steps=8 format=1]
+[gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://scripts/token.gd" type="Script" id=1]
 [ext_resource path="res://images/token.png" type="Texture" id=2]
 [ext_resource path="res://fonts/palamecia.fnt" type="BitmapFont" id=3]
 [ext_resource path="res://images/selectable_token.png" type="Texture" id=4]
+[ext_resource path="res://animations/broccoli_aura.tres" type="Animation" id=5]
+[ext_resource path="res://animations/token.tres" type="Animation" id=6]
+[ext_resource path="res://animations/spawn.tres" type="Animation" id=7]
 
 [sub_resource type="Animation" id=1]
-
-resource/name = "broccoli_selection"
-length = 1.0
-loop = true
-step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("glow:visibility/opacity")
-tracks/0/interp = 1
-tracks/0/imported = false
-tracks/0/keys = {
-"times": FloatArray( 0, 0.5, 1 ),
-"transitions": FloatArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 0.0, 1.0, 0.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("glow:visibility/visible")
-tracks/1/interp = 1
-tracks/1/imported = false
-tracks/1/keys = {
-"times": FloatArray( 0 ),
-"transitions": FloatArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-
-[sub_resource type="Animation" id=2]
 
 length = 0.06
 loop = false
@@ -48,32 +24,32 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=3]
-
-length = 0.1
-loop = false
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:transform/scale")
-tracks/0/interp = 1
-tracks/0/imported = false
-tracks/0/keys = {
-"times": FloatArray( 0, 0.1 ),
-"transitions": FloatArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1e-05, 1e-05 ), Vector2( 1, 1 ) ]
-}
-
 [node name="token" type="Node2D" groups=[
 "token",
 ]]
 
-transform/scale = Vector2( 1e-05, 1e-05 )
+transform/scale = Vector2( 1, 1 )
 script/script = ExtResource( 1 )
+
+[node name="button" type="Button" parent="."]
+
+visibility/visible = false
+visibility/opacity = 0.0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -152.0
+margin/top = -154.0
+margin/right = 162.0
+margin/bottom = 166.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
 
 [node name="token_sprite" type="Sprite" parent="."]
 
-editor/display_folded = true
 texture = ExtResource( 2 )
 offset = Vector2( 5, 5 )
 
@@ -97,20 +73,58 @@ max_lines_visible = -1
 
 [node name="glow" type="Sprite" parent="."]
 
-visibility/opacity = 0.0
+visibility/opacity = 0.0427876
 texture = ExtResource( 4 )
+modulate = Color( 0.175781, 0.883942, 0.9375, 1 )
 
 [node name="animation" type="AnimationPlayer" parent="."]
 
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/broccoli_selection = SubResource( 1 )
-anims/merge = SubResource( 2 )
-anims/spawn = SubResource( 3 )
+anims/broccoli_selection = ExtResource( 5 )
+anims/merge = SubResource( 1 )
+anims/spawn = ExtResource( 6 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
+
+[node name="broccoli_spawn" type="AnimationTreePlayer" parent="."]
+
+playback/process_mode = 1
+base_path = NodePath("..")
+master_player = NodePath("")
+data = {
+"active": false,
+"connections": [ "broccoli", "mix", 0, "spawn", "mix", 1, "mix", "out", 0 ],
+"master": NodePath(""),
+"nodes": [ {
+"id": "mix",
+"mix": 1.0,
+"pos": Vector2( 397, 43 ),
+"type": "mix"
+}, {
+"id": "out",
+"pos": Vector2( 664, 58 ),
+"type": "output"
+}, {
+"animation": ExtResource( 5 ),
+"filter": [  ],
+"id": "broccoli",
+"pos": Vector2( 60, 60 ),
+"type": "animation"
+}, {
+"animation": ExtResource( 7 ),
+"filter": [  ],
+"id": "spawn",
+"pos": Vector2( 217, 183 ),
+"type": "animation"
+} ]
+}
+
+[connection signal="pressed" from="button" to="." method="_on_button_pressed"]
+
+[connection signal="finished" from="animation" to="." method="_on_animation_finished"]
 
 

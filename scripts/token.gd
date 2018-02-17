@@ -7,6 +7,9 @@ var token_to_merge_with = null
 var current_pos
 var tween
 
+var is_selectable = false
+var is_dying = false
+
 
 func setup(pos, t):
 	level = 1
@@ -17,13 +20,23 @@ func setup(pos, t):
 	animation.play("spawn")
 
 
+func die():
+	is_dying = true
+	animation.play_backwards("spawn")
+
+
 func set_selectable_state():
+	is_selectable = true
 	animation.play("broccoli_selection")
+	get_node("button").show()
 
 
 func unset_selectable_state():
+	is_selectable = false
 	animation.stop()
+	get_node("broccoli_spawn").set_active(false)
 	get_node("glow").hide()
+	get_node("button").hide()
 
 
 func is_merging():
@@ -76,3 +89,14 @@ func _set_content():
 func _get_world_pos(pos):
 	var offset = Vector2(336 / 2, 334 / 2)
 	return get_parent().map_to_world(current_pos) + offset
+
+
+func _on_animation_finished():
+	if is_dying:
+		queue_free()
+
+
+func _on_button_pressed():
+	print("TOCA")
+	if is_selectable and g.game.broccolis > 0:
+		g.game.use_broccoli(self)

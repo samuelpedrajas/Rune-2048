@@ -40,6 +40,11 @@ func start_event(name):
 		current_event = game.start_broccoli_selection()
 
 
+func stop_event():
+	current_event.close()
+	current_event = null
+
+
 func open_popup(name):
 	if not name in popup_stack:
 		get_tree().set_pause(true)
@@ -112,7 +117,6 @@ func _notification(what):
 		if not popup_stack.empty():
 			close_popup()
 		elif current_event:
-			current_event.close()
-			current_event = null
+			stop_event()
 		else:
 			open_popup("exit_confirmation")

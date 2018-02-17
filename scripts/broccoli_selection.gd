@@ -23,3 +23,7 @@ func _on_animation_finished():
 	else:
 		for token in get_tree().get_nodes_in_group("token"):
 			token.set_selectable_state()
+
+
+func _on_clickabe_area_pressed():
+	g.stop_event()
