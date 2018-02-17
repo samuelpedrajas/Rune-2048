@@ -539,7 +539,6 @@ scale = Vector2( 1, 1 )
 [node name="black_screen" type="Sprite" parent="transition_layer"]
 
 visibility/opacity = 0.0
-transform/pos = Vector2( 57.2781, -12.9686 )
 texture = ExtResource( 27 )
 centered = false
 

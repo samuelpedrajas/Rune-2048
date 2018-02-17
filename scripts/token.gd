@@ -22,6 +22,7 @@ func setup(pos, t):
 
 func die():
 	is_dying = true
+	get_node("broccoli_spawn").set_active(false)
 	animation.play_backwards("spawn")
 
 
