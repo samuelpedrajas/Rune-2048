@@ -6,7 +6,7 @@ var highest_score = 0 setget _set_highest_score
 var current_score = 0 setget _set_current_score
 
 # items
-var broccolis = 2
+var broccolis = 3
 
 # keep board state
 var matrix = {}
@@ -22,6 +22,7 @@ var direction_pivots = {}
 # signals
 signal highest_score_changed
 signal current_score_changed
+signal broccoli_number_changed
 
 # for instancing tokens
 onready var token = preload("res://scenes/token.tscn")
@@ -31,6 +32,8 @@ onready var broccoli = preload("res://scenes/broccoli_selection.tscn")
 func use_broccoli(token):
 	if broccolis > 0:
 		broccolis -= 1
+		g.play_audio("click")
+		emit_signal("broccoli_number_changed", broccolis)
 		matrix.erase(token.current_pos)
 		token.die()
 
@@ -211,7 +214,7 @@ func _handle_game_status():
 		win()
 	else:
 		_spawn_token()
-		if not _check_moves_available():
+		if not _check_moves_available() and broccolis == 0:
 			game_over()
 		input_handler.blocked = false
 

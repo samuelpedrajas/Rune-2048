@@ -1,29 +1,32 @@
-[gd_scene load_steps=34 format=1]
+[gd_scene load_steps=38 format=1]
 
 [ext_resource path="res://scripts/game.gd" type="Script" id=1]
 [ext_resource path="res://audio/click.smp" type="Sample" id=2]
 [ext_resource path="res://audio/merge.smp" type="Sample" id=3]
 [ext_resource path="res://audio/arcade_game.ogg" type="AudioStream" id=4]
-[ext_resource path="res://scripts/input_handler.gd" type="Script" id=5]
-[ext_resource path="res://images/background.png" type="Texture" id=6]
-[ext_resource path="res://images/top_panel.png" type="Texture" id=7]
-[ext_resource path="res://images/time_container.png" type="Texture" id=8]
-[ext_resource path="res://fonts/token_label.fnt" type="BitmapFont" id=9]
-[ext_resource path="res://images/score_post.png" type="Texture" id=10]
-[ext_resource path="res://images/max_score_post.png" type="Texture" id=11]
-[ext_resource path="res://images/bottom_border.png" type="Texture" id=12]
-[ext_resource path="res://images/menu_button.png" type="Texture" id=13]
-[ext_resource path="res://images/menu_button_pressed.png" type="Texture" id=14]
-[ext_resource path="res://images/restart_button.png" type="Texture" id=15]
-[ext_resource path="res://images/restart_button_pressed.png" type="Texture" id=16]
-[ext_resource path="res://images/book.png" type="Texture" id=17]
-[ext_resource path="res://images/book_pressed.png" type="Texture" id=18]
-[ext_resource path="res://images/broccoli.png" type="Texture" id=19]
-[ext_resource path="res://images/broccoli_pressed.png" type="Texture" id=20]
-[ext_resource path="res://scripts/board.gd" type="Script" id=21]
-[ext_resource path="res://images/board_bg.png" type="Texture" id=22]
-[ext_resource path="res://tileset/tileset.tres" type="TileSet" id=23]
-[ext_resource path="res://images/black_screen.png" type="Texture" id=24]
+[ext_resource path="res://images/background.png" type="Texture" id=5]
+[ext_resource path="res://scripts/input_handler.gd" type="Script" id=6]
+[ext_resource path="res://scripts/board.gd" type="Script" id=7]
+[ext_resource path="res://images/board_bg.png" type="Texture" id=8]
+[ext_resource path="res://tileset/tileset.tres" type="TileSet" id=9]
+[ext_resource path="res://images/top_panel.png" type="Texture" id=10]
+[ext_resource path="res://images/time_container.png" type="Texture" id=11]
+[ext_resource path="res://fonts/token_label.fnt" type="BitmapFont" id=12]
+[ext_resource path="res://images/score_post.png" type="Texture" id=13]
+[ext_resource path="res://images/max_score_post.png" type="Texture" id=14]
+[ext_resource path="res://images/bottom_border.png" type="Texture" id=15]
+[ext_resource path="res://images/menu_button.png" type="Texture" id=16]
+[ext_resource path="res://images/menu_button_pressed.png" type="Texture" id=17]
+[ext_resource path="res://images/restart_button.png" type="Texture" id=18]
+[ext_resource path="res://images/restart_button_pressed.png" type="Texture" id=19]
+[ext_resource path="res://images/book.png" type="Texture" id=20]
+[ext_resource path="res://images/book_pressed.png" type="Texture" id=21]
+[ext_resource path="res://images/broccoli.png" type="Texture" id=22]
+[ext_resource path="res://images/broccoli_pressed.png" type="Texture" id=23]
+[ext_resource path="res://images/broccoli_disabled.png" type="Texture" id=24]
+[ext_resource path="res://images/n_broccolis.png" type="Texture" id=25]
+[ext_resource path="res://fonts/small.fnt" type="BitmapFont" id=26]
+[ext_resource path="res://images/black_screen.png" type="Texture" id=27]
 
 [sub_resource type="SampleLibrary" id=1]
 
@@ -90,7 +93,43 @@ script/source = "extends TextureButton
 func _on_broccoli_pressed():
 	g.play_audio(\"click\")
 	g.start_event(\"broccoli\")
+
+
+func _on_game_broccoli_number_changed(n):
+	var label = get_node(\"circle/n_broccolis\")
+	label.set_text(str(n))
+	get_node(\"circle_animation\").play(\"used\")
+	if n == 0:
+		set_disabled(true)
+		label.set_opacity(0.5)
 "
+
+[sub_resource type="Animation" id=11]
+
+resource/name = "used"
+length = 0.2
+loop = false
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("circle:transform/scale")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 0.1, 0.2 ),
+"transitions": FloatArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("circle:transform/rot")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = {
+"times": FloatArray( 0, 0.1, 0.2 ),
+"transitions": FloatArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 20.0, 0.0 ]
+}
 
 [sub_resource type="Animation" id=7]
 
@@ -187,6 +226,11 @@ playback/active = false
 playback/repeat = false
 playback/speed = 1.0
 
+[node name="background" type="Sprite" parent="."]
+
+transform/pos = Vector2( 540, 960 )
+texture = ExtResource( 5 )
+
 [node name="input_handler" type="Control" parent="."]
 
 focus/ignore_mouse = false
@@ -197,23 +241,55 @@ margin/left = 0.0
 margin/top = 453.0
 margin/right = 1080.0
 margin/bottom = 1580.0
-script/script = ExtResource( 5 )
+script/script = ExtResource( 6 )
 
-[node name="hud_layer" type="CanvasLayer" parent="."]
+[node name="board_layer" type="CanvasLayer" parent="."]
 
+editor/display_folded = true
 layer = 0
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
 
-[node name="hud" type="Node2D" parent="hud_layer"]
+[node name="board" type="Node2D" parent="board_layer"]
 
 editor/display_folded = true
+transform/pos = Vector2( 30, 460 )
+script/script = ExtResource( 7 )
 
-[node name="background" type="Sprite" parent="hud_layer/hud"]
+[node name="background" type="Sprite" parent="board_layer/board"]
 
-transform/pos = Vector2( 540, 960 )
-texture = ExtResource( 6 )
+transform/scale = Vector2( 1, 0.9 )
+texture = ExtResource( 8 )
+centered = false
+offset = Vector2( -30, -30 )
+
+[node name="tilemap" type="TileMap" parent="board_layer/board"]
+
+mode = 0
+tile_set = ExtResource( 9 )
+cell/size = Vector2( 340, 340 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 1
+collision/mask = 1
+occluder/light_mask = 1
+tile_data = IntArray( 0, 0, 1, 0, 2, 0, 65536, 0, 65537, 0, 65538, 0, 131072, 0, 131073, 0, 131074, 0 )
+
+[node name="hud_layer" type="CanvasLayer" parent="."]
+
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+
+[node name="hud" type="Node2D" parent="hud_layer"]
 
 [node name="header" type="Container" parent="hud_layer/hud"]
 
@@ -230,7 +306,7 @@ margin/bottom = 225.0
 [node name="top_border" type="Sprite" parent="hud_layer/hud/header"]
 
 transform/pos = Vector2( 540, 125 )
-texture = ExtResource( 7 )
+texture = ExtResource( 10 )
 
 [node name="current_score" type="Container" parent="hud_layer/hud/header"]
 
@@ -247,7 +323,7 @@ margin/bottom = 201.0
 [node name="container_sprite" type="Sprite" parent="hud_layer/hud/header/current_score"]
 
 transform/pos = Vector2( 12, -2 )
-texture = ExtResource( 8 )
+texture = ExtResource( 11 )
 
 [node name="current_score" type="Label" parent="hud_layer/hud/header/current_score/container_sprite"]
 
@@ -259,7 +335,7 @@ margin/left = -82.0
 margin/top = -38.0
 margin/right = 118.0
 margin/bottom = 32.0
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 12 )
 text = "0"
 align = 2
 percent_visible = 1.0
@@ -270,7 +346,7 @@ script/script = SubResource( 2 )
 [node name="post_sprite" type="Sprite" parent="hud_layer/hud/header/current_score"]
 
 transform/pos = Vector2( -174.325, -4.09686 )
-texture = ExtResource( 10 )
+texture = ExtResource( 13 )
 
 [node name="max_score" type="Container" parent="hud_layer/hud/header"]
 
@@ -288,7 +364,7 @@ margin/bottom = 203.0
 
 editor/display_folded = true
 transform/pos = Vector2( 12, -2 )
-texture = ExtResource( 8 )
+texture = ExtResource( 11 )
 
 [node name="max_score" type="Label" parent="hud_layer/hud/header/max_score/container_sprite"]
 
@@ -300,7 +376,7 @@ margin/left = -82.0
 margin/top = -38.0
 margin/right = 118.0
 margin/bottom = 32.0
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 12 )
 text = "0"
 align = 2
 percent_visible = 1.0
@@ -311,7 +387,7 @@ script/script = SubResource( 3 )
 [node name="post_sprite" type="Sprite" parent="hud_layer/hud/header/max_score"]
 
 transform/pos = Vector2( -147.325, -4.09686 )
-texture = ExtResource( 11 )
+texture = ExtResource( 14 )
 
 [node name="lower_buttons" type="Container" parent="hud_layer/hud"]
 
@@ -327,7 +403,7 @@ margin/bottom = 1764.0
 [node name="bottom_border" type="Sprite" parent="hud_layer/hud/lower_buttons"]
 
 transform/pos = Vector2( 540, 210 )
-texture = ExtResource( 12 )
+texture = ExtResource( 15 )
 
 [node name="menu" type="TextureButton" parent="hud_layer/hud/lower_buttons"]
 
@@ -342,8 +418,8 @@ margin/bottom = 165.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 13 )
-textures/pressed = ExtResource( 14 )
+textures/normal = ExtResource( 16 )
+textures/pressed = ExtResource( 17 )
 params/resize_mode = 0
 params/stretch_mode = 0
 script/script = SubResource( 4 )
@@ -361,8 +437,8 @@ margin/bottom = 170.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 15 )
-textures/pressed = ExtResource( 16 )
+textures/normal = ExtResource( 18 )
+textures/pressed = ExtResource( 19 )
 params/resize_mode = 0
 params/stretch_mode = 0
 script/script = SubResource( 5 )
@@ -380,8 +456,8 @@ margin/bottom = 170.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 17 )
-textures/pressed = ExtResource( 18 )
+textures/normal = ExtResource( 20 )
+textures/pressed = ExtResource( 21 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
@@ -398,56 +474,53 @@ margin/bottom = 170.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 19 )
-textures/pressed = ExtResource( 20 )
+textures/normal = ExtResource( 22 )
+textures/pressed = ExtResource( 23 )
+textures/disabled = ExtResource( 24 )
 params/resize_mode = 0
 params/stretch_mode = 0
 script/script = SubResource( 6 )
 
+[node name="circle" type="Sprite" parent="hud_layer/hud/lower_buttons/broccoli"]
+
+transform/pos = Vector2( 141.724, 24.5668 )
+texture = ExtResource( 25 )
+
+[node name="n_broccolis" type="Label" parent="hud_layer/hud/lower_buttons/broccoli/circle"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -29.0
+margin/top = -30.0
+margin/right = 29.0
+margin/bottom = 29.0
+custom_fonts/font = ExtResource( 26 )
+text = "3"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="circle_animation" type="AnimationPlayer" parent="hud_layer/hud/lower_buttons/broccoli"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/used = SubResource( 11 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
 [node name="event_layer" type="CanvasLayer" parent="."]
-
-layer = 1
-offset = Vector2( 0, 0 )
-rotation = 0.0
-scale = Vector2( 1, 1 )
-
-[node name="board_layer" type="CanvasLayer" parent="."]
 
 layer = 2
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
-
-[node name="board" type="Node2D" parent="board_layer"]
-
-editor/display_folded = true
-transform/pos = Vector2( 30, 473.135 )
-script/script = ExtResource( 21 )
-
-[node name="background" type="Sprite" parent="board_layer/board"]
-
-transform/scale = Vector2( 1, 0.9 )
-texture = ExtResource( 22 )
-centered = false
-offset = Vector2( -30, -30 )
-
-[node name="tilemap" type="TileMap" parent="board_layer/board"]
-
-mode = 0
-tile_set = ExtResource( 23 )
-cell/size = Vector2( 340, 340 )
-cell/quadrant_size = 16
-cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
-cell/half_offset = 2
-cell/tile_origin = 0
-cell/y_sort = false
-collision/use_kinematic = false
-collision/friction = 1.0
-collision/bounce = 0.0
-collision/layers = 1
-collision/mask = 1
-occluder/light_mask = 1
-tile_data = IntArray( 0, 0, 1, 0, 2, 0, 65536, 0, 65537, 0, 65538, 0, 131072, 0, 131073, 0, 131074, 0 )
 
 [node name="popup_layer" type="CanvasLayer" parent="."]
 
@@ -466,7 +539,8 @@ scale = Vector2( 1, 1 )
 [node name="black_screen" type="Sprite" parent="transition_layer"]
 
 visibility/opacity = 0.0
-texture = ExtResource( 24 )
+transform/pos = Vector2( 57.2781, -12.9686 )
+texture = ExtResource( 27 )
 centered = false
 
 [node name="transition" type="AnimationPlayer" parent="."]
@@ -482,6 +556,8 @@ playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
 script/script = SubResource( 9 )
+
+[connection signal="broccoli_number_changed" from="." to="hud_layer/hud/lower_buttons/broccoli" method="_on_game_broccoli_number_changed"]
 
 [connection signal="pressed" from="hud_layer/hud/lower_buttons/menu" to="hud_layer/hud/lower_buttons/menu" method="_on_menu_pressed"]
 

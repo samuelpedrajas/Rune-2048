@@ -12,13 +12,16 @@ func close():
 
 
 func _ready():
+	var n = g.game.get_node("event_layer").get_layer()
 	animation.play("open")
+	g.game.get_node("board_layer").set_layer(n + 1)
 
 
 func _on_animation_finished():
 	if is_closing:
 		for token in get_tree().get_nodes_in_group("token"):
 			token.unset_selectable_state()
+		g.game.get_node("board_layer").set_layer(0)
 		queue_free()
 	else:
 		for token in get_tree().get_nodes_in_group("token"):
