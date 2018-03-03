@@ -11,8 +11,8 @@ var is_selectable = false
 var is_dying = false
 
 
-func setup(pos, t):
-	level = 1
+func setup(pos, t, lvl):
+	level = lvl
 	tween = t
 	current_pos = pos
 	_set_content()

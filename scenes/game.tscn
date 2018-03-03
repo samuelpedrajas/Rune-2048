@@ -104,7 +104,7 @@ func _on_game_broccoli_number_changed(n):
 		label.set_opacity(0.5)
 "
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=7]
 
 resource/name = "used"
 length = 0.2
@@ -131,7 +131,7 @@ tracks/1/keys = {
 "values": [ 0.0, 20.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=8]
 
 length = 0.5
 loop = false
@@ -147,7 +147,7 @@ tracks/0/keys = {
 "values": [ 0.0, 1.0 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=9]
 
 length = 0.3
 loop = false
@@ -163,7 +163,7 @@ tracks/0/keys = {
 "values": [ 1.0, 0.0 ]
 }
 
-[sub_resource type="GDScript" id=9]
+[sub_resource type="GDScript" id=10]
 
 script/source = "extends AnimationPlayer
 
@@ -509,7 +509,7 @@ max_lines_visible = -1
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/used = SubResource( 11 )
+anims/used = SubResource( 7 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -548,13 +548,13 @@ process/pause_mode = 2
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/close = SubResource( 7 )
-anims/open = SubResource( 8 )
+anims/close = SubResource( 8 )
+anims/open = SubResource( 9 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
-script/script = SubResource( 9 )
+script/script = SubResource( 10 )
 
 [connection signal="broccoli_number_changed" from="." to="hud_layer/hud/lower_buttons/broccoli" method="_on_game_broccoli_number_changed"]
 

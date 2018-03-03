@@ -69,7 +69,25 @@ func restart_game():
 	input_handler.blocked = false
 
 
+########## DEBUG MODE ##########
+
+func _debug_func():
+	tween = get_node("tween")
+	board = get_node("board_layer/board")
+
+	var lvl = 0
+	for i in range(0, 3):
+		for j in range(0, 3):
+			var t = token.instance()
+			board.add_child(t)
+			t.setup(Vector2(j, i), tween, lvl)
+			lvl += 1
+
+
 func _ready():
+	if cfg.DEBUG_MODE:
+		_debug_func()
+		return
 	# get some child nodes
 	input_handler = get_node("input_handler")
 	tween = get_node("tween")
@@ -226,7 +244,7 @@ func _spawn_token():
 
 	var t = token.instance()
 	board.add_child(t)  # t.setup() needs access to the board, so add it before
-	t.setup(pos, tween)
+	t.setup(pos, tween, 1)
 	matrix[pos] = t
 
 	return t
