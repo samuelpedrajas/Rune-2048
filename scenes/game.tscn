@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=1]
+[gd_scene load_steps=39 format=1]
 
 [ext_resource path="res://scripts/game.gd" type="Script" id=1]
 [ext_resource path="res://audio/click.smp" type="Sample" id=2]
@@ -84,6 +84,16 @@ script/source = "extends TextureButton
 func _on_reset_pressed():
 	g.play_audio(\"click\")
 	g.open_popup(\"reset_confirmation\")
+"
+
+[sub_resource type="GDScript" id=11]
+
+script/source = "extends TextureButton
+
+
+func _on_excuses_pressed():
+	g.play_audio(\"click\")
+	g.open_popup(\"book\")
 "
 
 [sub_resource type="GDScript" id=6]
@@ -460,6 +470,7 @@ textures/normal = ExtResource( 20 )
 textures/pressed = ExtResource( 21 )
 params/resize_mode = 0
 params/stretch_mode = 0
+script/script = SubResource( 11 )
 
 [node name="broccoli" type="TextureButton" parent="hud_layer/hud/lower_buttons"]
 
@@ -561,6 +572,8 @@ script/script = SubResource( 10 )
 [connection signal="pressed" from="hud_layer/hud/lower_buttons/menu" to="hud_layer/hud/lower_buttons/menu" method="_on_menu_pressed"]
 
 [connection signal="pressed" from="hud_layer/hud/lower_buttons/reset" to="hud_layer/hud/lower_buttons/reset" method="_on_reset_pressed"]
+
+[connection signal="pressed" from="hud_layer/hud/lower_buttons/excuses" to="hud_layer/hud/lower_buttons/excuses" method="_on_excuses_pressed"]
 
 [connection signal="pressed" from="hud_layer/hud/lower_buttons/broccoli" to="hud_layer/hud/lower_buttons/broccoli" method="_on_broccoli_pressed"]
 

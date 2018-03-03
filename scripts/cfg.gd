@@ -1,6 +1,6 @@
 extends Node
 
-const DEBUG_MODE = true
+const DEBUG_MODE = false
 const GOAL = 9
 
 # Directions available for input
@@ -16,5 +16,6 @@ const MOTION_DISTANCE = 15  # Minimum distance with the mouse pressed to make a 
 const MINIMUM_DISTANCE_TO_MOVE = 0.6 # Minimum distance from the direction vectors to make a move
 
 const SETTINGS_WINDOW_POS = Vector2(540, 1000)
+const BOOK_WINDOW_POS = Vector2(540, 1000)
 const EXIT_WINDOW_POS = Vector2(540, 850)
 const RESET_WINDOW_POS = Vector2(540, 850)
