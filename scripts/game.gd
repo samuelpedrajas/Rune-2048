@@ -75,7 +75,7 @@ func _debug_func():
 	tween = get_node("tween")
 	board = get_node("board_layer/board")
 
-	var lvl = 0
+	var lvl = 1
 	for i in range(0, 3):
 		for j in range(0, 3):
 			var t = token.instance()
