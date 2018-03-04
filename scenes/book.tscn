@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=1]
+[gd_scene load_steps=12 format=1]
 
 [ext_resource path="res://scripts/book.gd" type="Script" id=1]
 [ext_resource path="res://animations/close_window.tres" type="Animation" id=2]
@@ -8,6 +8,19 @@
 [ext_resource path="res://fonts/window_title.fnt" type="BitmapFont" id=6]
 [ext_resource path="res://images/close_window.png" type="Texture" id=7]
 [ext_resource path="res://images/close_window_pressed.png" type="Texture" id=8]
+[ext_resource path="res://scripts/scroll_container.gd" type="Script" id=9]
+[ext_resource path="res://images/excuse_entry.png" type="Texture" id=10]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends TouchScreenButton
+
+onready var papa = get_parent().get_parent().get_parent()
+
+
+func _on_excuse_pressed():
+	papa.clicked_excuse = int(get_name())
+"
 
 [node name="excuses" type="Node2D"]
 
@@ -45,8 +58,7 @@ flat = false
 
 [node name="window" type="Node2D" parent="."]
 
-visibility/opacity = 0.0
-transform/scale = Vector2( 1e-05, 1e-05 )
+transform/scale = Vector2( 0.9, 0.9 )
 
 [node name="non_clickable_space" type="Control" parent="window"]
 
@@ -67,6 +79,7 @@ texture = ExtResource( 4 )
 
 [node name="header" type="Sprite" parent="window"]
 
+editor/display_folded = true
 transform/pos = Vector2( 0, -540 )
 texture = ExtResource( 5 )
 
@@ -104,10 +117,291 @@ textures/pressed = ExtResource( 8 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
+[node name="scroll_container" type="ScrollContainer" parent="window"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -429.0
+margin/top = -375.0
+margin/right = 435.0
+margin/bottom = 211.0
+scroll/horizontal = false
+scroll/vertical = true
+script/script = ExtResource( 9 )
+
+[node name="vbox_container" type="VBoxContainer" parent="window/scroll_container"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 12.0
+margin/bottom = 1542.0
+custom_constants/separation = 170
+alignment = 0
+
+[node name="entry_1" type="Control" parent="window/scroll_container/vbox_container"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 12.0
+margin/bottom = 0.0
+
+[node name="0" type="TouchScreenButton" parent="window/scroll_container/vbox_container/entry_1"]
+
+normal = ExtResource( 10 )
+pressed = null
+bitmask = null
+shape = null
+shape_centered = true
+shape_visible = true
+passby_press = false
+action = ""
+visibility_mode = 0
+script/script = SubResource( 1 )
+
+[node name="entry_2" type="Control" parent="window/scroll_container/vbox_container"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 170.0
+margin/right = 12.0
+margin/bottom = 170.0
+
+[node name="1" type="TouchScreenButton" parent="window/scroll_container/vbox_container/entry_2"]
+
+normal = ExtResource( 10 )
+pressed = null
+bitmask = null
+shape = null
+shape_centered = true
+shape_visible = true
+passby_press = false
+action = ""
+visibility_mode = 0
+script/script = SubResource( 1 )
+
+[node name="entry_3" type="Control" parent="window/scroll_container/vbox_container"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 340.0
+margin/right = 12.0
+margin/bottom = 340.0
+
+[node name="2" type="TouchScreenButton" parent="window/scroll_container/vbox_container/entry_3"]
+
+normal = ExtResource( 10 )
+pressed = null
+bitmask = null
+shape = null
+shape_centered = true
+shape_visible = true
+passby_press = false
+action = ""
+visibility_mode = 0
+script/script = SubResource( 1 )
+
+[node name="entry_4" type="Control" parent="window/scroll_container/vbox_container"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 510.0
+margin/right = 12.0
+margin/bottom = 510.0
+
+[node name="3" type="TouchScreenButton" parent="window/scroll_container/vbox_container/entry_4"]
+
+normal = ExtResource( 10 )
+pressed = null
+bitmask = null
+shape = null
+shape_centered = true
+shape_visible = true
+passby_press = false
+action = ""
+visibility_mode = 0
+script/script = SubResource( 1 )
+
+[node name="entry_5" type="Control" parent="window/scroll_container/vbox_container"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 680.0
+margin/right = 12.0
+margin/bottom = 680.0
+
+[node name="4" type="TouchScreenButton" parent="window/scroll_container/vbox_container/entry_5"]
+
+normal = ExtResource( 10 )
+pressed = null
+bitmask = null
+shape = null
+shape_centered = true
+shape_visible = true
+passby_press = false
+action = ""
+visibility_mode = 0
+script/script = SubResource( 1 )
+
+[node name="entry_6" type="Control" parent="window/scroll_container/vbox_container"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 850.0
+margin/right = 12.0
+margin/bottom = 850.0
+
+[node name="5" type="TouchScreenButton" parent="window/scroll_container/vbox_container/entry_6"]
+
+normal = ExtResource( 10 )
+pressed = null
+bitmask = null
+shape = null
+shape_centered = true
+shape_visible = true
+passby_press = false
+action = ""
+visibility_mode = 0
+script/script = SubResource( 1 )
+
+[node name="entry_7" type="Control" parent="window/scroll_container/vbox_container"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 1020.0
+margin/right = 12.0
+margin/bottom = 1020.0
+
+[node name="6" type="TouchScreenButton" parent="window/scroll_container/vbox_container/entry_7"]
+
+normal = ExtResource( 10 )
+pressed = null
+bitmask = null
+shape = null
+shape_centered = true
+shape_visible = true
+passby_press = false
+action = ""
+visibility_mode = 0
+script/script = SubResource( 1 )
+
+[node name="entry_8" type="Control" parent="window/scroll_container/vbox_container"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 1190.0
+margin/right = 12.0
+margin/bottom = 1190.0
+
+[node name="7" type="TouchScreenButton" parent="window/scroll_container/vbox_container/entry_8"]
+
+normal = ExtResource( 10 )
+pressed = null
+bitmask = null
+shape = null
+shape_centered = true
+shape_visible = true
+passby_press = false
+action = ""
+visibility_mode = 0
+script/script = SubResource( 1 )
+
+[node name="entry_9" type="Control" parent="window/scroll_container/vbox_container"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 1360.0
+margin/right = 12.0
+margin/bottom = 1360.0
+
+[node name="8" type="TouchScreenButton" parent="window/scroll_container/vbox_container/entry_9"]
+
+normal = ExtResource( 10 )
+pressed = null
+bitmask = null
+shape = null
+shape_centered = true
+shape_visible = true
+passby_press = false
+action = ""
+visibility_mode = 0
+script/script = SubResource( 1 )
+
+[node name="scroll_bar" type="VScrollBar" parent="window/scroll_container/vbox_container"]
+
+visibility/opacity = 0.0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 1530.0
+margin/right = 12.0
+margin/bottom = 1542.0
+range/min = 0.0
+range/max = 100.0
+range/step = 0.0
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+custom_step = 20.0
+
 [connection signal="finished" from="animation" to="." method="_on_animation_finished"]
 
 [connection signal="pressed" from="clickable_space" to="." method="_on_clickable_space_pressed"]
 
 [connection signal="pressed" from="window/close_button" to="." method="_on_close_button_pressed"]
+
+[connection signal="pressed" from="window/scroll_container/vbox_container/entry_1/0" to="window/scroll_container/vbox_container/entry_1/0" method="_on_excuse_pressed"]
+
+[connection signal="pressed" from="window/scroll_container/vbox_container/entry_2/1" to="window/scroll_container/vbox_container/entry_2/1" method="_on_excuse_pressed"]
+
+[connection signal="pressed" from="window/scroll_container/vbox_container/entry_3/2" to="window/scroll_container/vbox_container/entry_3/2" method="_on_excuse_pressed"]
+
+[connection signal="pressed" from="window/scroll_container/vbox_container/entry_4/3" to="window/scroll_container/vbox_container/entry_4/3" method="_on_excuse_pressed"]
+
+[connection signal="pressed" from="window/scroll_container/vbox_container/entry_5/4" to="window/scroll_container/vbox_container/entry_5/4" method="_on_excuse_pressed"]
+
+[connection signal="pressed" from="window/scroll_container/vbox_container/entry_6/5" to="window/scroll_container/vbox_container/entry_6/5" method="_on_excuse_pressed"]
+
+[connection signal="pressed" from="window/scroll_container/vbox_container/entry_7/6" to="window/scroll_container/vbox_container/entry_7/6" method="_on_excuse_pressed"]
+
+[connection signal="pressed" from="window/scroll_container/vbox_container/entry_8/7" to="window/scroll_container/vbox_container/entry_8/7" method="_on_excuse_pressed"]
+
+[connection signal="pressed" from="window/scroll_container/vbox_container/entry_9/8" to="window/scroll_container/vbox_container/entry_9/8" method="_on_excuse_pressed"]
 
 
