@@ -7,13 +7,13 @@ var tap_actual_position
 var clicked_excuse = null
 
 
-func setup(excuse_list):
+func setup():
 	# add excuse entries
 	var v_box = get_node("vbox_container")
-	for i in range(excuse_list.size()):
-		var excuse_text = excuse_list[i]
+	for i in range(cfg.EXCUSES.size()):
+		var excuse = cfg.EXCUSES[i]
 		var excuse_entry = ExcuseEntry.instance()
-		excuse_entry.setup(i, excuse_text)
+		excuse_entry.setup(i, excuse["text"])
 		v_box.add_child(excuse_entry)
 
 	# add vertical scroll bar

@@ -20,3 +20,52 @@ const BOOK_WINDOW_POS = Vector2(540, 700)
 const EXIT_WINDOW_POS = Vector2(540, 850)
 const RESET_WINDOW_POS = Vector2(540, 850)
 const SCROLL_THRESHOLD = 10
+
+# excuse info
+var EXCUSES = [
+	{
+		"token_sprite": ResourceLoader.load("res://images/excuses/lions.png"),
+		"book_sprite": ResourceLoader.load("res://images/excuses/lions.png"),
+		"text": "Lions eat meat"
+	},
+	{
+		"token_sprite": ResourceLoader.load("res://images/excuses/plantshavefeeling.png"),
+		"book_sprite": ResourceLoader.load("res://images/excuses/plantshavefeeling.png"),
+		"text": "Plants have feelings"
+	},
+	{
+		"token_sprite": ResourceLoader.load("res://images/excuses/desertedisland.png"),
+		"book_sprite": ResourceLoader.load("res://images/excuses/desertedisland.png"),
+		"text": "Lost in a deserted island"
+	},
+	{
+		"token_sprite": ResourceLoader.load("res://images/excuses/ancestors.png"),
+		"book_sprite": ResourceLoader.load("res://images/excuses/ancestors.png"),
+		"text": "We are like cavemen"
+	},
+	{
+		"token_sprite": ResourceLoader.load("res://images/excuses/bacon.png"),
+		"book_sprite": ResourceLoader.load("res://images/excuses/bacon.png"),
+		"text": "Mmhh... Bacon"
+	},
+	{
+		"token_sprite": ResourceLoader.load("res://images/excuses/canineteeth.png"),
+		"book_sprite": ResourceLoader.load("res://images/excuses/canineteeth.png"),
+		"text": "Look at my canine teeth!"
+	},
+	{
+		"token_sprite": ResourceLoader.load("res://images/excuses/onepersonmakesnodifference.png"),
+		"book_sprite": ResourceLoader.load("res://images/excuses/onepersonmakesnodifference.png"),
+		"text": "It's legal to eat meat"
+	},
+	{
+		"token_sprite": ResourceLoader.load("res://images/excuses/b12.png"),
+		"book_sprite": ResourceLoader.load("res://images/excuses/b12.png"),
+		"text": "Morality is subjective"
+	},
+	{
+		"token_sprite": ResourceLoader.load("res://images/excuses/proteins.png"),
+		"book_sprite": ResourceLoader.load("res://images/excuses/proteins.png"),
+		"text": "What about proteins?"
+	}
+]
