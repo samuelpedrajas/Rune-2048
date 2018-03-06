@@ -13,6 +13,18 @@ var TOKEN_SPRITES = [
 	ResourceLoader.load("res://images/excuses/proteins.png")
 ]
 
+var EXCUSES = [
+	"Lions eat meat",
+	"Plants have feelings",
+	"Lost in a deserted island",
+	"We are like cavemen",
+	"Mmhh... Bacon",
+	"Look at my canine teeth!",
+	"It's legal to eat meat",
+	"Morality is subjective",
+	"What about proteins?"
+]
+
 
 func get_token_content(level):
 	return TOKEN_SPRITES[level - 1]

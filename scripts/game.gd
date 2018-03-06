@@ -1,6 +1,7 @@
 extends Node
 
 # game scores
+var highest_max = 1
 var current_max = 1
 var highest_score = 0 setget _set_highest_score
 var current_score = 0 setget _set_current_score
@@ -223,6 +224,7 @@ func _handle_game_status():
 			self.current_score += pow(2, achieved_level)
 			self.highest_score = highest_score if highest_score > current_score else current_score
 			self.current_max = achieved_level if achieved_level > current_max else current_max
+			self.highest_max = current_max if current_max > highest_max else highest_max
 		token.update_state()
 
 	g.save_game()

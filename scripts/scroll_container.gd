@@ -1,11 +1,25 @@
 extends ScrollContainer
 
 
+onready var ExcuseEntry = load("res://scenes/itemlist_entry.tscn")
 var tap_start_position
 var tap_actual_position
-var pressed = false
 var clicked_excuse = null
 
+
+func _ready():
+	# add excuse entries
+	var v_box = get_node("vbox_container")
+	for i in range(g.game.board.EXCUSES.size()):
+		var excuse_text = g.game.board.EXCUSES[i]
+		var excuse_entry = ExcuseEntry.instance()
+		excuse_entry.setup(i, excuse_text)
+		v_box.add_child(excuse_entry)
+
+	# add vertical scroll bar
+	var v_scroll = VScrollBar.new()
+	v_scroll.set_opacity(0)  # weird pixels in lower-left corner otherwise
+	v_box.add_child(v_scroll)
 
 func _input_event(event):
 	tap_actual_position = event.pos

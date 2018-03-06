@@ -62,7 +62,7 @@ flat = false
 [node name="window" type="Node2D" parent="."]
 
 visibility/opacity = 0.0
-transform/scale = Vector2( 0.1, 0.1 )
+transform/scale = Vector2( 1e-05, 1e-05 )
 
 [node name="non_clickable_space" type="Control" parent="window"]
 
