@@ -15,6 +15,7 @@ func close():
 func _ready():
 	set_pos(cfg.BOOK_WINDOW_POS)
 	animation.play("open")
+	get_node("window/scroll_container").setup(g.game.board.EXCUSES)
 
 
 func _on_animation_finished():
