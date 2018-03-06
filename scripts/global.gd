@@ -82,6 +82,7 @@ func play_audio(sample):
 func save_game():
 	savegame.open("user://savegame.save", File.WRITE)
 	var game_status = {
+		'highest_max': game.highest_max,
 		'highest_score': game.highest_score,
 		'music_on': music_on,
 		'sound_on': sound_on
@@ -98,6 +99,7 @@ func load_game():
 	savegame.open("user://savegame.save", File.READ)
 	game_status.parse_json(savegame.get_line())
 	game.highest_score = game_status['highest_score']
+	game.highest_max = game_status['highest_max']
 	self.music_on = game_status['music_on']
 	self.sound_on = game_status['sound_on']
 	savegame.close()
