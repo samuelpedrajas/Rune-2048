@@ -7,7 +7,8 @@ onready var popup_scene_dict = {
 	"settings": preload("res://scenes/settings.tscn"),
 	"exit_confirmation": preload("res://scenes/exit_confirmation.tscn"),
 	"reset_confirmation": preload("res://scenes/reset_confirmation.tscn"),
-	"book": preload("res://scenes/book.tscn")
+	"book": preload("res://scenes/book.tscn"),
+	"excuse_explanation": preload("res://scenes/excuse_explanation.tscn")
 }
 var current_event
 
@@ -57,6 +58,9 @@ func open_popup(name):
 		popup.set_z(popup_stack.size())
 		g.game.get_node("popup_layer").add_child(popup)
 		popup_stack.append(popup)
+
+		return popup
+
 
 
 func close_popup():

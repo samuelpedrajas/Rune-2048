@@ -10,11 +10,15 @@ var clicked_excuse = null
 func setup():
 	# add excuse entries
 	var v_box = get_node("vbox_container")
-	for i in range(cfg.EXCUSES.size()):
-		var excuse = cfg.EXCUSES[i]
+	for i in range(1, cfg.EXCUSES.size() + 1):
+		var excuse = cfg.EXCUSES[i - 1]
 		var excuse_entry = ExcuseEntry.instance()
 		excuse_entry.setup(i, excuse["text"])
 		v_box.add_child(excuse_entry)
+		if i > g.game.highest_max:
+			excuse_entry.set_lock()
+		elif i == g.game.current_max:
+			excuse_entry.set_actual()
 
 	# add vertical scroll bar
 	var v_scroll = VScrollBar.new()
@@ -32,10 +36,8 @@ func _input_event(event):
 		if clicked_excuse == null:
 			clicked_excuse = null
 			return
-		if clicked_excuse % 2 == 0:
-			g.play_audio("merge")
-		else:
-			g.play_audio("click")
+		var excuse_popup = g.open_popup("excuse_explanation")
+		excuse_popup.setup(clicked_excuse)
 		clicked_excuse = null
 
 
