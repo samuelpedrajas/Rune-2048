@@ -23,3 +23,5 @@ func set_lock():
 
 func set_actual():
 	actual.set_hidden(false)
+	button.set_texture(load("res://images/actual_excuse.png"))
+	

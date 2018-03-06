@@ -18,7 +18,7 @@ func _ready():
 
 func setup(excuse_index):
 	var image_node = get_node("window/excuse_image")
-	var excuse_sprite = cfg.EXCUSES[excuse_index]["book_sprite"]
+	var excuse_sprite = cfg.EXCUSES[excuse_index - 1]["book_sprite"]
 	image_node.set_texture(excuse_sprite)
 
 

@@ -2,8 +2,8 @@
 
 [ext_resource path="res://scripts/excuse_explanation.gd" type="Script" id=1]
 [ext_resource path="res://animations/open_window.tres" type="Animation" id=2]
-[ext_resource path="res://images/popup.png" type="Texture" id=3]
-[ext_resource path="res://images/excuses/lions.png" type="Texture" id=4]
+[ext_resource path="res://images/board_bg.png" type="Texture" id=3]
+[ext_resource path="res://images/excuse_pictures/blank.png" type="Texture" id=4]
 [ext_resource path="res://images/ok_button.png" type="Texture" id=5]
 [ext_resource path="res://images/ok_button_pressed.png" type="Texture" id=6]
 
@@ -74,11 +74,13 @@ margin/bottom = 450.0
 
 [node name="background" type="Sprite" parent="window"]
 
-transform/scale = Vector2( 0.791763, 0.666224 )
+transform/pos = Vector2( 0, -0.100969 )
+transform/scale = Vector2( 0.986801, 0.868072 )
 texture = ExtResource( 3 )
 
 [node name="excuse_image" type="Sprite" parent="window"]
 
+transform/pos = Vector2( 0, -25.5556 )
 texture = ExtResource( 4 )
 
 [node name="ok_button" type="TextureButton" parent="window"]
@@ -88,9 +90,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = -100.0
-margin/top = 260.0
+margin/top = 453.0
 margin/right = 100.0
-margin/bottom = 460.0
+margin/bottom = 653.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
