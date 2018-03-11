@@ -2,6 +2,7 @@ extends Node2D
 
 
 onready var animation = get_node("animation")
+onready var scroll_container = get_node("window/scroll_container")
 
 var is_closing = false
 
@@ -14,8 +15,8 @@ func close():
 
 func _ready():
 	set_pos(cfg.BOOK_WINDOW_POS)
+	scroll_container.setup()
 	animation.play("open")
-	get_node("window/scroll_container").setup()
 
 
 func _on_animation_finished():
